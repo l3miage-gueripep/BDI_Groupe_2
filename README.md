@@ -29,7 +29,7 @@ You must fill the name of your schema and define the first row with your first a
 Change the configuration in src/main/resources/application.properties:
 
 ```
-spring.datasource.url=jdbc:oracle:thin:@im2ag-oracle.e.ujf-grenoble.fr:1521:IM2AG
+spring.datasource.url=jdbc:oracle:thin:@im2ag-oracle.univ-grenoble-alpes.fr:1521:IM2AG
 
 spring.datasource.username=<YOUR_USERNAME>
 

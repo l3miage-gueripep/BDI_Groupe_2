@@ -12,6 +12,12 @@ import lombok.Getter;
 @Getter
 @IdClass(PersonId.class)
 public final class Person {
+	
+	public Person(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+	
     @Id
     @Column(name="first_name")
     private String firstName;

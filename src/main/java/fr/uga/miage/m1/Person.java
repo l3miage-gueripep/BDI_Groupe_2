@@ -13,6 +13,9 @@ import lombok.Getter;
 @IdClass(PersonId.class)
 public final class Person {
 	
+	public Person() {
+	}
+
 	public Person(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;

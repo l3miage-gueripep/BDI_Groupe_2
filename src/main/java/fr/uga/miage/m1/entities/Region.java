@@ -1,4 +1,5 @@
 package fr.uga.miage.m1.entities;
+
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ public class Region {
     @Id
     @Column
     private String nomRegion;
+
     @OneToMany
     private List<Departement> departements;
 }

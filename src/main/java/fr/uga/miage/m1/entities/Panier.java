@@ -1,4 +1,5 @@
 package fr.uga.miage.m1.entities;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,21 +13,25 @@ import lombok.Setter;
 @Setter
 public class Panier {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_panier")
     private Long idPanier;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column
+    @Column(name = "date", columnDefinition = "TIMESTAMP")
     private Date date;
     @Column
     private double prix;
     @Column
     private int nbPieces;
-    @Column
-    private boolean validated;
-    @ManyToMany
-    private List<OffreCovoiturage> offreCovoiturages;
-    @ManyToOne
-    private Adherent festivalier;
+    @Column(name = "validated", columnDefinition = "NUMBER(1)")
+    private Boolean validated;
+    // @ManyToMany
+    // private List<OffreCovoiturage> offreCovoiturages;
+    /*
+     * @ManyToOne
+     * 
+     * @JoinColumn(name = "festivalier_id_adherent")
+     * private Adherent festivalier;
+     */
 
 }

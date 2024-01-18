@@ -13,25 +13,21 @@ import lombok.Setter;
 @Setter
 public class Panier {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_panier")
+    @GeneratedValue
+    @Column
     private Long idPanier;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date", columnDefinition = "TIMESTAMP")
-    private Date date;
+    @Column
+    private Date datePanier;
     @Column
     private double prix;
     @Column
     private int nbPieces;
-    @Column(name = "validated", columnDefinition = "NUMBER(1)")
+    @Column
     private Boolean validated;
-    // @ManyToMany
-    // private List<OffreCovoiturage> offreCovoiturages;
-    /*
-     * @ManyToOne
-     * 
-     * @JoinColumn(name = "festivalier_id_adherent")
-     * private Adherent festivalier;
-     */
+    @ManyToMany
+    private List<OffreCovoiturage> offresCovoiturage;
+    @ManyToOne
+    private Adherent festivalier;
+
 
 }

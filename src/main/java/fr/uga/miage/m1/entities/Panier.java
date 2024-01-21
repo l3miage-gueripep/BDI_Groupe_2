@@ -28,6 +28,4 @@ public class Panier {
     private List<OffreCovoiturage> offresCovoiturage;
     @ManyToOne
     private Adherent festivalier;
-
-
 }

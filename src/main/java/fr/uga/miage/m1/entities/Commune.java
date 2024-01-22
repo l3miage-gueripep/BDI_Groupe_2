@@ -25,10 +25,10 @@ public class Commune {
     private int codeInsee;
 
     @Column
-    private int longitude;
+    private double longitude;
 
     @Column
-    private int latitude;
+    private double latitude;
 
     @Column
     private String codePostal;

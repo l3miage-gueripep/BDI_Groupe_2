@@ -11,7 +11,7 @@ public class LieuCovoiturage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long idLieu;
+    private String idLieu;
 
     @Column
     private String nomLieu;

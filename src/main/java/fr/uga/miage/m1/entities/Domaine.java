@@ -21,9 +21,13 @@ import lombok.Setter;
 public class Domaine {
 
     @Id
-    @Column
-    private String domaine;
+    private String nomDomaine;
 
     @OneToMany
     private List<SousDomaine> sousDomaine;
+
+    public Domaine(String nomDomaine) {
+        this.nomDomaine = nomDomaine;
+        this.sousDomaine = new java.util.ArrayList<>();
+    }
 }

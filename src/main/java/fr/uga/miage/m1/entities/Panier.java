@@ -3,6 +3,7 @@ package fr.uga.miage.m1.entities;
 import java.util.Date;
 import java.util.List;
 
+import fr.uga.miage.m1.Etat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,13 +22,11 @@ public class Panier {
     @Column
     private double prix;
     @Column
-    private int nbPieces;
+    private int nbPlaces;
     @Column
-    private Boolean validated;
+    private Etat etat;
     @ManyToMany
     private List<OffreCovoiturage> offresCovoiturage;
     @ManyToOne
     private Adherent festivalier;
-
-
 }

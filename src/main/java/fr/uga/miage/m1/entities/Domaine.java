@@ -26,8 +26,8 @@ public class Domaine {
     @OneToMany
     private List<SousDomaine> sousDomaine;
 
-    public Domaine(String domaine) {
-        this.nomDomaine = domaine;
+    public Domaine(String nomDomaine) {
+        this.nomDomaine = nomDomaine;
         this.sousDomaine = new java.util.ArrayList<>();
     }
 }

@@ -24,11 +24,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.boot.ApplicationRunner;
 
-
 @Component
 @RequiredArgsConstructor
-public class Startup implements ApplicationRunner{
+public class Startup implements ApplicationRunner {
     private final DomaineService domaineService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Application started. Running custom code...");
@@ -42,11 +42,20 @@ public class Startup implements ApplicationRunner{
             data.put(i, new ArrayList<String>());
             for (Cell cell : row) {
                 switch (cell.getCellType()) {
-                    case STRING: data.get(Integer.valueOf(i)).add(cell.getStringCellValue()); break;
-                    case NUMERIC: data.get(Integer.valueOf(i)).add(String.valueOf(cell.getNumericCellValue())); break;
-                    case BOOLEAN: System.out.println("Boolean"); break;
-                    case FORMULA: System.out.println("Formula"); break;
-                    default: data.get(new Integer(i)).add(" ");
+                    case STRING:
+                        data.get(Integer.valueOf(i)).add(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        data.get(Integer.valueOf(i)).add(String.valueOf(cell.getNumericCellValue()));
+                        break;
+                    case BOOLEAN:
+                        System.out.println("Boolean");
+                        break;
+                    case FORMULA:
+                        System.out.println("Formula");
+                        break;
+                    default:
+                        data.get(new Integer(i)).add(" ");
                 }
             }
             i++;
@@ -54,16 +63,13 @@ public class Startup implements ApplicationRunner{
         // System.out.println(data);
         Object[] entries = data.entrySet().toArray();
 
-        //creation des entités stockant les données
+        // creation des entités stockant les données
         List<Domaine> domaines = new ArrayList<>();
         List<SousDomaine> sousDomaines = new ArrayList<>();
         List<Festival> festivals = new ArrayList<>();
         for (i = 1; i < entries.length; i++) {
-            
-            Object value = entries[i].value;
-            Domaine newDomaine = new Domaine();
-            System.out.println(value);
+            Domaine newDomaine = new Domaine("hello");
         }
-        
+        domaineService.create("Hello");
     }
 }

@@ -2,6 +2,7 @@ package fr.uga.miage.m1.entities;
 
 import java.util.List;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +25,7 @@ public class Domaine {
     private String nomDomaine;
 
     @OneToMany
+    @Nullable
     private List<SousDomaine> sousDomaine;
 
     public Domaine(String domaine) {

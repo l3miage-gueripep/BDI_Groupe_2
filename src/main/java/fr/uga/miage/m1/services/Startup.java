@@ -3,13 +3,15 @@ package fr.uga.miage.m1.services;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -35,18 +37,25 @@ public class Startup implements ApplicationRunner{
         FileInputStream file = new FileInputStream(new File("data.xlsx"));
         Workbook workbook = new XSSFWorkbook(file);
 
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet festivalsSheet = workbook.getSheetAt(0);
+        Sheet lieuxCovoituragesSheet = workbook.getSheetAt(1);
         Map<Integer, List<String>> data = new HashMap<>();
         int i = 0;
-        for (Row row : sheet) {
+        for (Row row : festivalsSheet) {
             data.put(i, new ArrayList<String>());
             for (Cell cell : row) {
                 switch (cell.getCellType()) {
-                    case STRING: data.get(Integer.valueOf(i)).add(cell.getStringCellValue()); break;
+                    case STRING: 
+                        String value = cell.getStringCellValue();
+                        data.get(Integer.valueOf(i)).add(value); 
+                        if(cell.getStringCellValue().contains("Festival de musique de Maguelone")){
+                            System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
+                        }
+                        break;
                     case NUMERIC: data.get(Integer.valueOf(i)).add(String.valueOf(cell.getNumericCellValue())); break;
                     case BOOLEAN: System.out.println("Boolean"); break;
-                    case FORMULA: System.out.println("Formula"); break;
-                    default: data.get(new Integer(i)).add(" ");
+                    case FORMULA: data.get(Integer.valueOf(i)).add(cell.getCellFormula()); break;
+                    default: data.get(Integer.valueOf(i)).add(" ");
                 }
             }
             i++;
@@ -58,12 +67,98 @@ public class Startup implements ApplicationRunner{
         List<Domaine> domaines = new ArrayList<>();
         List<SousDomaine> sousDomaines = new ArrayList<>();
         List<Festival> festivals = new ArrayList<>();
+        Random rand = new Random();
         for (i = 1; i < entries.length; i++) {
-            
-            Object value = entries[i].value;
-            Domaine newDomaine = new Domaine();
-            System.out.println(value);
+
+            Object nodeObject = entries[i];
+            // System.out.println(node);
+            List<String> node = ((Entry<Integer, List<String>>) nodeObject).getValue();
+            int j = 0;
+            String nomFestival = node.get(j++);
+            if(nomFestival != " "){
+                String nomRegion = node.get(j++);
+                String nomDomaine = node.get(j++);
+                String nomSousDomaine = node.get(j++);
+                int numDepartement = (int) Double.parseDouble(node.get(j++));
+                j++;           
+                String siteWeb = node.get(j++);
+                String nomLieu = node.get(j++);
+                String codePostal = node.get(j++);
+                String codeInsee = node.get(j++);
+                double longitude;
+                double latitude;
+                try {
+                    longitude = Double.parseDouble(node.get(j));
+                    latitude = Double.parseDouble(node.get(j + 1));
+                    j+=2;
+                } catch (Exception e) {
+                    longitude = 0;
+                    latitude = 0;
+                }
+    
+    
+                String nomDepartement = node.get(j++);
+                j++;
+                Date dateDebut = null;
+                Date dateFin = null;            
+                double excelDateDebutSerial = Double.parseDouble(node.get(j++));
+                double excelDateFinSerial = Double.parseDouble(node.get(j++));
+                dateDebut = DateUtil.getJavaDate(excelDateDebutSerial);
+                dateFin = DateUtil.getJavaDate(excelDateFinSerial);
+
+                
+                int tarifPass = rand.nextInt(78) + 8;
+                System.out.println(nomFestival);
+                if(nomFestival.contains("ZYGOMATIC FESTIVAL")){
+                    System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
+                }
+            }
+
+
+            Map<Integer, List<String>> lieuxCovoituragesData = new HashMap<>();
+            int k = 0;
+            for (Row row : lieuxCovoituragesSheet) {
+                lieuxCovoituragesData.put(k, new ArrayList<String>());
+                for (Cell cell : row) {
+                    switch (cell.getCellType()) {
+                        case STRING: 
+                            String value = cell.getStringCellValue();
+                            lieuxCovoituragesData.get(Integer.valueOf(k)).add(value); 
+                            if(cell.getStringCellValue().contains("Festival de musique de Maguelone")){
+                                System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
+                            }
+                            break;
+                        case NUMERIC: lieuxCovoituragesData.get(Integer.valueOf(k)).add(String.valueOf(cell.getNumericCellValue())); break;
+                        case BOOLEAN: System.out.println("Boolean"); break;
+                        case FORMULA: lieuxCovoituragesData.get(Integer.valueOf(k)).add(cell.getCellFormula()); break;
+                        default: lieuxCovoituragesData.get(Integer.valueOf(k)).add(" ");
+                    }
+                }
+                k++;
+            }
+            Object[] lieuxCovoituragesEntries = lieuxCovoituragesData.entrySet().toArray();
+            System.out.println();
+            i = 0;
+            for (i = 1; i < lieuxCovoituragesEntries.length; i++) {
+
+                Object lieuxCovoituragesNodeObject = lieuxCovoituragesEntries[i];
+                List<String> lieuxCovoituragesNode = ((Entry<Integer, List<String>>) lieuxCovoituragesNodeObject).getValue();
+                String idLieu = lieuxCovoituragesNode.get(0);
+                if(idLieu.contains("Total")){
+                    break;
+                }
+                String nomLieu = lieuxCovoituragesNode.get(1);
+                String adresseLieu = lieuxCovoituragesNode.get(2);
+                String communeLieu = lieuxCovoituragesNode.get(3);
+                String codeInsee = lieuxCovoituragesNode.get(4);
+                String typeLieu = lieuxCovoituragesNode.get(5);
+                double longitude = Double.parseDouble(lieuxCovoituragesNode.get(6));
+                double latitude = Double.parseDouble(lieuxCovoituragesNode.get(7));
+                System.out.println(idLieu);
+            }
+
         }
+        // domaineService.create("musique");
         
     }
 }

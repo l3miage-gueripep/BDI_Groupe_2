@@ -26,11 +26,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.boot.ApplicationRunner;
 
-
 @Component
 @RequiredArgsConstructor
-public class Startup implements ApplicationRunner{
+public class Startup implements ApplicationRunner {
     private final DomaineService domaineService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Application started. Running custom code...");
@@ -63,7 +63,7 @@ public class Startup implements ApplicationRunner{
         // System.out.println(data);
         Object[] entries = data.entrySet().toArray();
 
-        //creation des entités stockant les données
+        // creation des entités stockant les données
         List<Domaine> domaines = new ArrayList<>();
         List<SousDomaine> sousDomaines = new ArrayList<>();
         List<Festival> festivals = new ArrayList<>();

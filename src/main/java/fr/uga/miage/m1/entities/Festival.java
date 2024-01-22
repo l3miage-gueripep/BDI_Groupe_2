@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,7 @@ public class Festival {
     private double tarifPass;
 
     @ManyToOne
+    @JoinColumn(name = "commune_codeInsee")
     private Commune commune;
 
     @OneToMany
@@ -49,8 +51,13 @@ public class Festival {
     private List<OffreCovoiturage> offreCovoiturages;
 
     @ManyToOne
-    private Adherent organisateur;
+    @JoinColumn(name = "organisateur_id")
+    private Organisateur organisateur;
 
     @ManyToOne
+    @JoinColumn(name = "nom_sous_domaine")
     private SousDomaine sousDomaine;
+
+    @OneToMany(mappedBy = "festival")
+    private List<LieuCovoiturage> lieuxCovoiturages;
 }

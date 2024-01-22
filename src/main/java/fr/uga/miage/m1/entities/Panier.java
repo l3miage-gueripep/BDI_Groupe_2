@@ -25,10 +25,14 @@ public class Panier {
     private int nbPlaces;
     @Column
     private Etat etat;
+
     @ManyToMany
     private List<OffreCovoiturage> offresCovoiturage;
 
     @ManyToOne
     @JoinColumn(name = "festivalier_panier")
     private Festivalier festivalier;
+
+    @OneToMany(mappedBy = "panier")
+    private List<PanierOffre> panierOffres;
 }

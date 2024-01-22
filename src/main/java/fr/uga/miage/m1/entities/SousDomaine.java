@@ -14,8 +14,10 @@ public class SousDomaine {
     @Id
     @Column
     private String nomSousDomaine;
+
+    @OneToMany(mappedBy = "sousDomaine")
+    private List<Festival> festivals;
+
     @ManyToOne
     private Domaine domaine;
-    @OneToMany
-    private List<Festival> festivals;
 }

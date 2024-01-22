@@ -26,8 +26,5 @@ public class Departement {
     private String nomDepartement;
 
     @ManyToOne
-    private Commune commune;
-
-    @ManyToOne
     private Region region;
 }

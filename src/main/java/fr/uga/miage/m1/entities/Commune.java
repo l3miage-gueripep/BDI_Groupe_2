@@ -36,7 +36,7 @@ public class Commune {
     @Column
     private String commune;
 
-    @OneToMany(mappedBy = "commune")
+    @OneToMany
     private List<Departement> departements;
 
     @OneToMany(mappedBy = "commune")

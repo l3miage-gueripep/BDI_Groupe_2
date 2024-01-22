@@ -1,4 +1,7 @@
 package fr.uga.miage.m1.entities;
+
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,5 +32,9 @@ public class LieuCovoiturage {
     private double latitude;
 
     @ManyToOne
+    @JoinColumn(name = "festivale_nom_manifestation")
     private Festival festival;
+
+    @OneToMany(mappedBy = "lieuCovoiturage")
+    private List<CovoiturageLieu> covoiturageLieu;
 }

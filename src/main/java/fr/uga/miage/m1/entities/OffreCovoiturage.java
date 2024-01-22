@@ -21,14 +21,16 @@ public class OffreCovoiturage {
     private int nbPlaces;
     @Column
     private double prixCovoiturage;
-    @ManyToMany
-    private List<Panier> paniers;
+
     @ManyToOne
     @JoinColumn(name = "organisateur_festival")
     private Conducteur conducteur;
+
     @ManyToOne
     @JoinColumn(name = "festival_nom_manifestation")
     private Festival festival;
-    @OneToMany
-    private List<LieuCovoiturage> lieusCovoiturage;
+
+    @ManyToOne
+    private PanierOffre panierOffre;
+
 }

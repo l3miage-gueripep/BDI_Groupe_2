@@ -99,16 +99,13 @@ public class Startup implements ApplicationRunner {
     
                 String nomDepartement = node.get(j++);
                 j++;
-                Date dateDebut = null;
-                Date dateFin = null;            
-                double excelDateDebutSerial = Double.parseDouble(node.get(j++));
-                double excelDateFinSerial = Double.parseDouble(node.get(j++));
-                dateDebut = DateUtil.getJavaDate(excelDateDebutSerial);
-                dateFin = DateUtil.getJavaDate(excelDateFinSerial);
-
+                Date dateDebut = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
+                Date dateFin = dateFin = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
                 
                 int tarifPass = rand.nextInt(78) + 8;
-                System.out.println(nomFestival);
+                Domaine newDomaine = new Domaine(nomDomaine);
+                domaines.add(newDomaine);
+                sousDomaines.add(new SousDomaine(nomSousDomaine, domaines.get(domaines.size() - 1)));
                 if(nomFestival.contains("ZYGOMATIC FESTIVAL")){
                     System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
                 }

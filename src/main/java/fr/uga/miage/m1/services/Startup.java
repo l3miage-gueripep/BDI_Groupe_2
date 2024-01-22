@@ -103,12 +103,7 @@ public class Startup implements ApplicationRunner {
                 Date dateFin = dateFin = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
                 
                 int tarifPass = rand.nextInt(78) + 8;
-                Domaine newDomaine = new Domaine(nomDomaine);
-                domaines.add(newDomaine);
-                sousDomaines.add(new SousDomaine(nomSousDomaine, domaines.get(domaines.size() - 1)));
-                if(nomFestival.contains("ZYGOMATIC FESTIVAL")){
-                    System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
-                }
+                System.out.println(nomFestival);
             }
 
 
@@ -151,7 +146,6 @@ public class Startup implements ApplicationRunner {
                 String typeLieu = lieuxCovoituragesNode.get(5);
                 double longitude = Double.parseDouble(lieuxCovoituragesNode.get(6));
                 double latitude = Double.parseDouble(lieuxCovoituragesNode.get(7));
-                System.out.println(idLieu);
             }
 
         }

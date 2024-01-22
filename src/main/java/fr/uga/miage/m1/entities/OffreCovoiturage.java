@@ -1,4 +1,5 @@
 package fr.uga.miage.m1.entities;
+
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -23,8 +24,10 @@ public class OffreCovoiturage {
     @ManyToMany
     private List<Panier> paniers;
     @ManyToOne
-    private Adherent conducteur;
+    @JoinColumn(name = "organisateur_festival")
+    private Conducteur conducteur;
     @ManyToOne
+    @JoinColumn(name = "festival_nom_manifestation")
     private Festival festival;
     @OneToMany
     private List<LieuCovoiturage> lieusCovoiturage;

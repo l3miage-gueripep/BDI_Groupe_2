@@ -27,6 +27,8 @@ public class Panier {
     private Etat etat;
     @ManyToMany
     private List<OffreCovoiturage> offresCovoiturage;
+
     @ManyToOne
-    private Adherent festivalier;
+    @JoinColumn(name = "festivalier_panier")
+    private Festivalier festivalier;
 }

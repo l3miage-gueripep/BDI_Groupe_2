@@ -1,12 +1,9 @@
 package fr.uga.miage.m1.entities;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "adherent")
-public class Adherent {
+public abstract class Adherent {
 
     @Id
     @GeneratedValue
@@ -37,11 +34,5 @@ public class Adherent {
 
     @Column
     private String telephone;
-
-    @OneToMany
-    private List<Festival> festivalsOrganise;
-
-    @OneToMany
-    private List<OffreCovoiturage> offreCovoiturages;
 
 }

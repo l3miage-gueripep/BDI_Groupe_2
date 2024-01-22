@@ -45,7 +45,7 @@ public class Festival {
     @OneToMany
     private List<Panier> paniers;
 
-    @OneToMany
+    @OneToMany(mappedBy = "festival")
     private List<OffreCovoiturage> offreCovoiturages;
 
     @ManyToOne

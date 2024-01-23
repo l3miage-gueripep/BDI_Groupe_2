@@ -33,10 +33,4 @@ public class CovoiturageLieu {
     private LocalDateTime horaire;
 
     private double prix;
-
-    @ManyToOne
-    private OffreCovoiturage offreCovoiturage;
-
-    @ManyToOne
-    private LieuCovoiturage lieuCovoiturage;
 }

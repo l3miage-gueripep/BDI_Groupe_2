@@ -12,9 +12,6 @@ import jakarta.persistence.OneToMany;
 public class PanierOffre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "id_panier")
     private Panier panier;

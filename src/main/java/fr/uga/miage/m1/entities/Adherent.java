@@ -37,13 +37,6 @@ public abstract class Adherent {
     @Column
     private String nom;
 
-    enum Role {
-        Conducteur, Organisateur, Festivalier
-    }
-
-    @Column
-    private Role role;
-
     @Column
     private String mail;
 

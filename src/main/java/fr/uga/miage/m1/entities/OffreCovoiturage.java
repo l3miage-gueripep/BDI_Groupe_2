@@ -21,7 +21,7 @@ public class OffreCovoiturage {
     private double prixCovoiturage;
 
     @ManyToOne
-    @JoinColumn(name = "organisateur_festival")
+    @JoinColumn(name = "conducteur_festival")
     private Conducteur conducteur;
 
     @ManyToOne
@@ -30,5 +30,6 @@ public class OffreCovoiturage {
 
     @ManyToOne
     private PanierOffre panierOffre;
+
 
 }

@@ -19,8 +19,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
 
+import fr.uga.miage.m1.entities.Commune;
 import fr.uga.miage.m1.entities.Domaine;
 import fr.uga.miage.m1.entities.Festival;
+import fr.uga.miage.m1.entities.LieuCovoiturage;
+import fr.uga.miage.m1.entities.Region;
 import fr.uga.miage.m1.entities.SousDomaine;
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +37,14 @@ public class Startup implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Application started. Running custom code...");
+        List<Domaine> domaines = new ArrayList<>();
+        List<SousDomaine> sousDomaines = new ArrayList<>();
+        List<Commune> communes = new ArrayList<>();
+        List<Festival> festivals = new ArrayList<>();
+        List<LieuCovoiturage> lieuxCovoiturages = new ArrayList<>();
+        List<Region> regions = new ArrayList<>();
+
+
         FileInputStream file = new FileInputStream(new File("data.xlsx"));
         Workbook workbook = new XSSFWorkbook(file);
 
@@ -48,9 +59,6 @@ public class Startup implements ApplicationRunner {
                     case STRING: 
                         String value = cell.getStringCellValue();
                         data.get(Integer.valueOf(i)).add(value); 
-                        if(cell.getStringCellValue().contains("Festival de musique de Maguelone")){
-                            System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
-                        }
                         break;
                     case NUMERIC: data.get(Integer.valueOf(i)).add(String.valueOf(cell.getNumericCellValue())); break;
                     case BOOLEAN: System.out.println("Boolean"); break;
@@ -64,9 +72,7 @@ public class Startup implements ApplicationRunner {
         Object[] entries = data.entrySet().toArray();
 
         // creation des entités stockant les données
-        List<Domaine> domaines = new ArrayList<>();
-        List<SousDomaine> sousDomaines = new ArrayList<>();
-        List<Festival> festivals = new ArrayList<>();
+
         Random rand = new Random();
         for (i = 1; i < entries.length; i++) {
 
@@ -102,8 +108,24 @@ public class Startup implements ApplicationRunner {
                 Date dateDebut = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
                 Date dateFin = dateFin = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
                 
-                int tarifPass = rand.nextInt(78) + 8;
-                System.out.println(nomFestival);
+                double tarifPass = rand.nextInt(78) + 8;
+                
+                //creation des domaines et sous domaines
+                Domaine newDomaine = new Domaine(nomDomaine);
+                domaines.add(newDomaine);
+
+                Commune commune = Commune.builder().codeInsee(codeInsee).latitude(latitude).longitude(longitude).build();
+                communes.add(commune);
+                sousDomaines.add(new SousDomaine(nomSousDomaine, newDomaine));
+                Festival festival = Festival.builder()
+                    .nomManifestation(nomFestival)
+                    .siteWeb(siteWeb)
+                    .lieuPrincipal(nomLieu)
+                    .dateDebut(dateDebut)
+                    .dateFin(dateFin)
+                    .tarifPass(tarifPass)
+                    .build();
+                festivals.add(festival);
             }
 
 
@@ -146,10 +168,31 @@ public class Startup implements ApplicationRunner {
                 String typeLieu = lieuxCovoituragesNode.get(5);
                 double longitude = Double.parseDouble(lieuxCovoituragesNode.get(6));
                 double latitude = Double.parseDouble(lieuxCovoituragesNode.get(7));
-            }
 
+                //trouve la commune avec le code insee
+                Commune commune = null;
+                for(Commune c : communes){
+                    if(c.getCodeInsee().equals(codeInsee)){
+                        commune = c;
+                        break;
+                    }
+                }
+                commune.setNomCommune(communeLieu);
+
+                Festival festival = null;
+                for(Festival f : festivals){
+                    if(f.getNomManifestation().equals(nomFestival)){
+                        festival = f;
+                        break;
+                    }
+                }
+                LieuCovoiturage lieuCovoiturage = new LieuCovoiturage(idLieu, nomLieu, adresseLieu, typeLieu, longitude, latitude, festival);
+                lieuxCovoiturages.add(lieuCovoiturage);
+
+
+
+            }
         }
-        // domaineService.create("musique");
-        
+        System.out.println();
     }
 }

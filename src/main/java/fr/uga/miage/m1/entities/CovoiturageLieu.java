@@ -36,4 +36,7 @@ public class CovoiturageLieu {
     @ManyToOne
     private OffreCovoiturage offreCovoiturage;
 
+    @ManyToOne
+    private LieuCovoiturage lieuCovoiturage;
+
 }

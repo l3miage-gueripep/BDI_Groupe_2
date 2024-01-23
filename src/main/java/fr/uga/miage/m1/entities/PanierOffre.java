@@ -1,22 +1,22 @@
 package fr.uga.miage.m1.entities;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import java.util.List;
 
+@Entity
 public class PanierOffre {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "panier_id")
-    private Long idPaiement;
+    @JoinColumn(name = "id_panier")
+    private Panier panier;
 
-    @Id
-    @OneToMany
-    private Long idCovoiturage;
+    @OneToMany(mappedBy = "panierOffre")
+    private List<OffreCovoiturage> covoiturages;
 
-    @Id
-    @OneToMany
-    private String idLieu;
+    @OneToMany(mappedBy = "panierOffre")
+    private List<LieuCovoiturage> lieux;
 }

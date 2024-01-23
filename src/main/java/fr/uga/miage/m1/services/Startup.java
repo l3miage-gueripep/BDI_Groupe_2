@@ -99,19 +99,11 @@ public class Startup implements ApplicationRunner {
     
                 String nomDepartement = node.get(j++);
                 j++;
-                Date dateDebut = null;
-                Date dateFin = null;            
-                double excelDateDebutSerial = Double.parseDouble(node.get(j++));
-                double excelDateFinSerial = Double.parseDouble(node.get(j++));
-                dateDebut = DateUtil.getJavaDate(excelDateDebutSerial);
-                dateFin = DateUtil.getJavaDate(excelDateFinSerial);
-
+                Date dateDebut = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
+                Date dateFin = dateFin = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
                 
                 int tarifPass = rand.nextInt(78) + 8;
                 System.out.println(nomFestival);
-                if(nomFestival.contains("ZYGOMATIC FESTIVAL")){
-                    System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
-                }
             }
 
 
@@ -154,7 +146,6 @@ public class Startup implements ApplicationRunner {
                 String typeLieu = lieuxCovoituragesNode.get(5);
                 double longitude = Double.parseDouble(lieuxCovoituragesNode.get(6));
                 double latitude = Double.parseDouble(lieuxCovoituragesNode.get(7));
-                System.out.println(idLieu);
             }
 
         }

@@ -1,11 +1,7 @@
 package fr.uga.miage.m1.entities;
 
-import java.util.List;
-
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,12 +19,4 @@ public class Domaine {
     @Id
     private String nomDomaine;
 
-    @OneToMany
-    @Nullable
-    private List<SousDomaine> sousDomaine;
-
-    public Domaine(String nomDomaine) {
-        this.nomDomaine = nomDomaine;
-        this.sousDomaine = new java.util.ArrayList<>();
-    }
 }

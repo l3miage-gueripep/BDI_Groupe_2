@@ -1,11 +1,12 @@
 package fr.uga.miage.m1.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jxl.write.DateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,19 +22,16 @@ public class CovoiturageLieu {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "offreCovoiturage_id")
-    private Long idCovoiturage;
+    @JoinColumn(name = "id_covoiturage")
+    private OffreCovoiturage offreCovoiturage;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "lieuCovoiturage_id")
-    private String idLieu;
+    @JoinColumn(name = "id_lieu")
+    private LieuCovoiturage lieuCovoiturage;
 
-    private DateTime horaire;
+    private LocalDateTime horaire;
 
     private double prix;
-
-    @ManyToOne
-    private OffreCovoiturage offreCovoiturage;
 
 }

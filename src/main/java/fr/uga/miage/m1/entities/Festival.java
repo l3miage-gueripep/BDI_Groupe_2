@@ -41,7 +41,7 @@ public class Festival {
     private double tarifPass;
 
     @ManyToOne
-    @JoinColumn(name = "commune_codeInsee")
+    @JoinColumn(name = "code_insee")
     private Commune commune;
 
     @OneToMany
@@ -51,7 +51,7 @@ public class Festival {
     private List<OffreCovoiturage> offreCovoiturages;
 
     @ManyToOne
-    @JoinColumn(name = "organisateur_id")
+    @JoinColumn(name = "id_adherent")
     private Organisateur organisateur;
 
     @ManyToOne

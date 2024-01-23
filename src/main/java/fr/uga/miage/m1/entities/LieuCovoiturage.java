@@ -32,7 +32,7 @@ public class LieuCovoiturage {
     private double latitude;
 
     @ManyToOne
-    @JoinColumn(name = "festivale_nom_manifestation")
+    @JoinColumn(name = "nom_manifestation")
     private Festival festival;
 
     @OneToMany(mappedBy = "lieuCovoiturage")

@@ -21,7 +21,7 @@ import lombok.Setter;
 public class Commune {
 
     @Id
-    @Column
+    @Column(name = "codeInsee")
     private int codeInsee;
 
     @Column
@@ -33,7 +33,7 @@ public class Commune {
     @Column
     private String codePostal;
 
-    @Column
+    @Column(name = "commune")
     private String commune;
 
     @OneToMany

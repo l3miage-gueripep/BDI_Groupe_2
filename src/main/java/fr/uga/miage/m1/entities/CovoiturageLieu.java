@@ -34,4 +34,9 @@ public class CovoiturageLieu {
 
     private double prix;
 
+    @ManyToOne
+    private OffreCovoiturage offreCovoiturage;
+
+    @ManyToOne
+    private LieuCovoiturage lieuCovoiturage;
 }

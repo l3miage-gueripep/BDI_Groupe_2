@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Festival {
 
     @Id
@@ -40,12 +42,12 @@ public class Festival {
     @Column
     private double tarifPass;
 
+    @Column
+    private String codePostal;
+
     @ManyToOne
     @JoinColumn(name = "code_insee")
     private Commune commune;
-
-    @OneToMany
-    private List<Panier> paniers;
 
     @OneToMany(mappedBy = "festival")
     private List<OffreCovoiturage> offreCovoiturages;

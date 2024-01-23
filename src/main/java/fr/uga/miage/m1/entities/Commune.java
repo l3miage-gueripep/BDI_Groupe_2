@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,12 +18,13 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "commune")
 public class Commune {
 
     @Id
     @Column(name = "codeInsee")
-    private int codeInsee;
+    private String codeInsee;
 
     @Column
     private double longitude;
@@ -34,7 +36,7 @@ public class Commune {
     private String codePostal;
 
     @Column(name = "commune")
-    private String commune;
+    private String nomCommune;
 
     @OneToMany
     private List<Departement> departements;

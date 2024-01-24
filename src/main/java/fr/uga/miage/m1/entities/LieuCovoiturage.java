@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -12,9 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class LieuCovoiturage {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private String idLieu;
 
@@ -40,7 +41,8 @@ public class LieuCovoiturage {
     @OneToMany(mappedBy = "lieuCovoiturage")
     private List<CovoiturageLieu> covoiturageLieu;
 
-    public LieuCovoiturage(String idLieu, String nomLieu, String adresseLieu, String typeLieu, double longitude, double latitude, Festival festival){
+    public LieuCovoiturage(String idLieu, String nomLieu, String adresseLieu, String typeLieu, double longitude,
+            double latitude) {
         this.idLieu = idLieu;
         this.nomLieu = nomLieu;
         this.adresseLieu = adresseLieu;

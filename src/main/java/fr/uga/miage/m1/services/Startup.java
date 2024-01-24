@@ -20,6 +20,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
 
 import fr.uga.miage.m1.entities.Commune;
+import fr.uga.miage.m1.entities.Departement;
 import fr.uga.miage.m1.entities.Domaine;
 import fr.uga.miage.m1.entities.Festival;
 import fr.uga.miage.m1.entities.LieuCovoiturage;
@@ -33,6 +34,12 @@ import org.springframework.boot.ApplicationRunner;
 @RequiredArgsConstructor
 public class Startup implements ApplicationRunner {
     private final DomaineService domaineService;
+    private final FestivalService festivalService;
+    private final SousDomaineService sousDomaineService;
+    private final RegionService regionService;
+    private final CommuneService communeService;
+    private final LieuCovoiturageService lieuCovoiturageService;
+    private final DepartementService departementService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -43,7 +50,7 @@ public class Startup implements ApplicationRunner {
         List<Festival> festivals = new ArrayList<>();
         List<LieuCovoiturage> lieuxCovoiturages = new ArrayList<>();
         List<Region> regions = new ArrayList<>();
-
+        List<Departement> departements = new ArrayList<>();
 
         FileInputStream file = new FileInputStream(new File("data.xlsx"));
         Workbook workbook = new XSSFWorkbook(file);
@@ -56,14 +63,21 @@ public class Startup implements ApplicationRunner {
             data.put(i, new ArrayList<String>());
             for (Cell cell : row) {
                 switch (cell.getCellType()) {
-                    case STRING: 
+                    case STRING:
                         String value = cell.getStringCellValue();
-                        data.get(Integer.valueOf(i)).add(value); 
+                        data.get(Integer.valueOf(i)).add(value);
                         break;
-                    case NUMERIC: data.get(Integer.valueOf(i)).add(String.valueOf(cell.getNumericCellValue())); break;
-                    case BOOLEAN: System.out.println("Boolean"); break;
-                    case FORMULA: data.get(Integer.valueOf(i)).add(cell.getCellFormula()); break;
-                    default: data.get(Integer.valueOf(i)).add(" ");
+                    case NUMERIC:
+                        data.get(Integer.valueOf(i)).add(String.valueOf(cell.getNumericCellValue()));
+                        break;
+                    case BOOLEAN:
+                        System.out.println("Boolean");
+                        break;
+                    case FORMULA:
+                        data.get(Integer.valueOf(i)).add(cell.getCellFormula());
+                        break;
+                    default:
+                        data.get(Integer.valueOf(i)).add(" ");
                 }
             }
             i++;
@@ -81,12 +95,12 @@ public class Startup implements ApplicationRunner {
             List<String> node = ((Entry<Integer, List<String>>) nodeObject).getValue();
             int j = 0;
             String nomFestival = node.get(j++);
-            if(nomFestival != " "){
+            if (nomFestival != " ") {
                 String nomRegion = node.get(j++);
                 String nomDomaine = node.get(j++);
                 String nomSousDomaine = node.get(j++);
                 int numDepartement = (int) Double.parseDouble(node.get(j++));
-                j++;           
+                j++;
                 String siteWeb = node.get(j++);
                 String nomLieu = node.get(j++);
                 String codePostal = node.get(j++);
@@ -96,103 +110,157 @@ public class Startup implements ApplicationRunner {
                 try {
                     longitude = Double.parseDouble(node.get(j));
                     latitude = Double.parseDouble(node.get(j + 1));
-                    j+=2;
+                    j += 2;
                 } catch (Exception e) {
                     longitude = 0;
                     latitude = 0;
                 }
-    
-    
-                String nomDepartement = node.get(j++);
-                j++;
-                Date dateDebut = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
-                Date dateFin = dateFin = DateUtil.getJavaDate(Double.parseDouble(node.get(j++)));
-                
-                double tarifPass = rand.nextInt(78) + 8;
-                
-                //creation des domaines et sous domaines
+
+                String nomDepartement = node.get(13);
+                /*
+                 * j++;
+                 * j++;
+                 * j++;
+                 */
+                // Date dateDebut = DateUtil.getJavaDate(Double.parseDouble(node.get(14)));
+                // Date dateFin = dateFin =
+                // DateUtil.getJavaDate(Double.parseDouble(node.get(15)));
+
+                // double tarifPass = rand.nextInt(78) + 8;
+
+                // creation des domaines et sous domaines
                 Domaine newDomaine = new Domaine(nomDomaine);
                 domaines.add(newDomaine);
 
-                Commune commune = Commune.builder().codeInsee(codeInsee).latitude(latitude).longitude(longitude).build();
+                Commune commune = Commune.builder().codeInsee(codeInsee).latitude(latitude).longitude(longitude)
+                        .build();
                 communes.add(commune);
-                sousDomaines.add(new SousDomaine(nomSousDomaine, newDomaine));
-                Festival festival = Festival.builder()
-                    .nomManifestation(nomFestival)
-                    .siteWeb(siteWeb)
-                    .lieuPrincipal(nomLieu)
-                    .dateDebut(dateDebut)
-                    .dateFin(dateFin)
-                    .tarifPass(tarifPass)
-                    .build();
-                festivals.add(festival);
-            }
-
-
-            Map<Integer, List<String>> lieuxCovoituragesData = new HashMap<>();
-            int k = 0;
-            for (Row row : lieuxCovoituragesSheet) {
-                lieuxCovoituragesData.put(k, new ArrayList<String>());
-                for (Cell cell : row) {
-                    switch (cell.getCellType()) {
-                        case STRING: 
-                            String value = cell.getStringCellValue();
-                            lieuxCovoituragesData.get(Integer.valueOf(k)).add(value); 
-                            if(cell.getStringCellValue().contains("Festival de musique de Maguelone")){
-                                System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
-                            }
-                            break;
-                        case NUMERIC: lieuxCovoituragesData.get(Integer.valueOf(k)).add(String.valueOf(cell.getNumericCellValue())); break;
-                        case BOOLEAN: System.out.println("Boolean"); break;
-                        case FORMULA: lieuxCovoituragesData.get(Integer.valueOf(k)).add(cell.getCellFormula()); break;
-                        default: lieuxCovoituragesData.get(Integer.valueOf(k)).add(" ");
-                    }
+                if (nomSousDomaine == null || nomSousDomaine.equals("")) {
+                    sousDomaines.add(new SousDomaine(newDomaine.getNomDomaine(), newDomaine));
+                } else {
+                    sousDomaines.add(new SousDomaine(nomSousDomaine, newDomaine));
                 }
-                k++;
-            }
-            Object[] lieuxCovoituragesEntries = lieuxCovoituragesData.entrySet().toArray();
-            System.out.println();
-            i = 0;
-            for (i = 1; i < lieuxCovoituragesEntries.length; i++) {
 
-                Object lieuxCovoituragesNodeObject = lieuxCovoituragesEntries[i];
-                List<String> lieuxCovoituragesNode = ((Entry<Integer, List<String>>) lieuxCovoituragesNodeObject).getValue();
-                String idLieu = lieuxCovoituragesNode.get(0);
-                if(idLieu.contains("Total")){
-                    break;
-                }
-                String nomLieu = lieuxCovoituragesNode.get(1);
-                String adresseLieu = lieuxCovoituragesNode.get(2);
-                String communeLieu = lieuxCovoituragesNode.get(3);
-                String codeInsee = lieuxCovoituragesNode.get(4);
-                String typeLieu = lieuxCovoituragesNode.get(5);
-                double longitude = Double.parseDouble(lieuxCovoituragesNode.get(6));
-                double latitude = Double.parseDouble(lieuxCovoituragesNode.get(7));
-
-                //trouve la commune avec le code insee
-                Commune commune = null;
-                for(Commune c : communes){
-                    if(c.getCodeInsee().equals(codeInsee)){
-                        commune = c;
-                        break;
-                    }
-                }
-                commune.setNomCommune(communeLieu);
-
-                Festival festival = null;
-                for(Festival f : festivals){
-                    if(f.getNomManifestation().equals(nomFestival)){
-                        festival = f;
-                        break;
-                    }
-                }
-                LieuCovoiturage lieuCovoiturage = new LieuCovoiturage(idLieu, nomLieu, adresseLieu, typeLieu, longitude, latitude, festival);
-                lieuxCovoiturages.add(lieuCovoiturage);
-
-
-
+                /*
+                 * Festival festival = Festival.builder()
+                 * .nomManifestation(nomFestival)
+                 * .siteWeb(siteWeb)
+                 * .lieuPrincipal(nomLieu)
+                 * .dateDebut(dateDebut)
+                 * .dateFin(dateFin)
+                 * .tarifPass(tarifPass)
+                 * .build();
+                 * festivals.add(festival);
+                 */
+                Region region = Region.builder()
+                        .nomRegion(nomRegion)
+                        .build();
+                regions.add(region);
+                Departement departement = Departement.builder()
+                        .nomDepartement(nomDepartement)
+                        .numDepartement(numDepartement)
+                        .region(region)
+                        .build();
+                departements.add(departement);
             }
         }
+
+        Map<Integer, List<String>> lieuxCovoituragesData = new HashMap<>();
+        int k = 0;
+        for (Row row : lieuxCovoituragesSheet) {
+            lieuxCovoituragesData.put(k, new ArrayList<String>());
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        String value = cell.getStringCellValue();
+                        lieuxCovoituragesData.get(Integer.valueOf(k)).add(value);
+                        if (cell.getStringCellValue().contains("Festival de musique de Maguelone")) {
+                            System.out.println("FESTIVAL DE MUSIQUE DE COMPANS");
+                        }
+                        break;
+                    case NUMERIC:
+                        lieuxCovoituragesData.get(Integer.valueOf(k))
+                                .add(String.valueOf(cell.getNumericCellValue()));
+                        break;
+                    case BOOLEAN:
+                        System.out.println("Boolean");
+                        break;
+                    case FORMULA:
+                        lieuxCovoituragesData.get(Integer.valueOf(k)).add(cell.getCellFormula());
+                        break;
+                    default:
+                        lieuxCovoituragesData.get(Integer.valueOf(k)).add(" ");
+                }
+            }
+            k++;
+        }
+        Object[] lieuxCovoituragesEntries = lieuxCovoituragesData.entrySet().toArray();
         System.out.println();
+        i = 0;
+        for (i = 1; i < lieuxCovoituragesEntries.length; i++) {
+
+            Object lieuxCovoituragesNodeObject = lieuxCovoituragesEntries[i];
+            List<String> lieuxCovoituragesNode = ((Entry<Integer, List<String>>) lieuxCovoituragesNodeObject)
+                    .getValue();
+            String idLieu = lieuxCovoituragesNode.get(0);
+            if (idLieu.contains("Total")) {
+                break;
+            }
+            String nomLieu = lieuxCovoituragesNode.get(1);
+            String adresseLieu = lieuxCovoituragesNode.get(2);
+            String communeLieu = lieuxCovoituragesNode.get(3);
+            String codeInsee = lieuxCovoituragesNode.get(4);
+            String typeLieu = lieuxCovoituragesNode.get(5);
+            double longitude = Double.parseDouble(lieuxCovoituragesNode.get(6));
+            double latitude = Double.parseDouble(lieuxCovoituragesNode.get(7));
+
+            // trouve la commune avec le code insee
+            Commune commune = null;
+            for (Commune c : communes) {
+                if (c.getCodeInsee().equals(codeInsee)) {
+                    commune = c;
+                    commune.setNomCommune(communeLieu);
+                    break;
+                }
+            }
+
+            /*
+             * Festival festival = null;
+             * for (Festival f : festivals) {
+             * if (f.getNomManifestation().equals(nomFestival)) {
+             * festival = f;
+             * break;
+             * }
+             * }
+             */
+            LieuCovoiturage lieuCovoiturage = new LieuCovoiturage(idLieu, nomLieu, adresseLieu, typeLieu, longitude,
+                    latitude);
+            lieuxCovoiturages.add(lieuCovoiturage);
+
+        }
+
+        System.out.println();
+        // for (int y = 0; y < festivals.size(); y++) {
+        // festivalService.create(festivals.get(y));
+        // }
+        // for (int y = 0; y < domaines.size(); y++) {
+        // domaineService.create(domaines.get(y));
+        // }
+        for (int y = 0; y < sousDomaines.size(); y++) {
+            sousDomaineService.create(sousDomaines.get(y));
+        }
+        // for (int y = 0; y < regions.size(); y++) {
+        // regionService.create(regions.get(y));
+        // }
+        // for (int y = 0; y < lieuxCovoiturages.size(); y++) {
+        // lieuCovoiturageService.create(lieuxCovoiturages.get(y));
+        // }
+        // for (int y = 0; y < communes.size(); y++) {
+        // communeService.create(communes.get(y));
+        // }
+        for (int y = 0; y < departements.size(); y++) {
+            departementService.create(departements.get(y));
+        }
+
     }
 }

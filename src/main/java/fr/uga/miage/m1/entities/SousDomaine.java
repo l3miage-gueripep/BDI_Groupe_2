@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Table(name = "sous_domaine")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SousDomaine {
@@ -24,9 +26,4 @@ public class SousDomaine {
 
     @ManyToOne
     private Domaine domaine;
-
-    public SousDomaine(String nomSousDomaine, Domaine domaine) {
-        this.nomSousDomaine = nomSousDomaine;
-        this.domaine = domaine;
-    }
 }

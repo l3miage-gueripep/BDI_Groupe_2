@@ -18,6 +18,7 @@ public class FestivalDto {
     private Date dateFin;
     private double tarifPass;
     private String codePostal;
+    private String lieuPrincipal;
     // Getters et Setters
     // ...
 }

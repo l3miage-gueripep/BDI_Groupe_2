@@ -40,7 +40,7 @@ public class Festival {
     private Date dateFin;
 
     @Column
-    private double tarifPass;
+    private Double tarifPass;
 
     @Column
     private String codePostal;

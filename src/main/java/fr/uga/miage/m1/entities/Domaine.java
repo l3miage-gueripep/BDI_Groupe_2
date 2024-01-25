@@ -15,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "domaine")
 public class Domaine {
-
     @Id
     private String nomDomaine;
 

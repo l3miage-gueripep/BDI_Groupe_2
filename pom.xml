@@ -24,11 +24,6 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>7.0.2.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springdoc</groupId>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class LieuCovoiturage {
     @Id
     @Column
@@ -40,14 +42,4 @@ public class LieuCovoiturage {
 
     @OneToMany(mappedBy = "lieuCovoiturage")
     private List<CovoiturageLieu> covoiturageLieu;
-
-    public LieuCovoiturage(String idLieu, String nomLieu, String adresseLieu, String typeLieu, double longitude,
-            double latitude) {
-        this.idLieu = idLieu;
-        this.nomLieu = nomLieu;
-        this.adresseLieu = adresseLieu;
-        this.typeLieu = typeLieu;
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
 }

@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class FestivalController {
+public class FestivalControllers {
     private final FestivalService festivalService;
 
     @GetMapping("festival/")

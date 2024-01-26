@@ -14,8 +14,6 @@ import fr.uga.miage.m1.requests.FestivalFilterRequest;
 import fr.uga.miage.m1.services.FestivalService;
 import lombok.RequiredArgsConstructor;
 
-
-
 @RestController
 @RequiredArgsConstructor
 public class FestivalControllers {
@@ -29,7 +27,6 @@ public class FestivalControllers {
     FestivalDto getById(@PathVariable final String nomManifestation){
         return festivalService.getById(nomManifestation);
     }
-    
     @PostMapping("festival/filter")
     List<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest request){
         return festivalService.getByFilter(request);

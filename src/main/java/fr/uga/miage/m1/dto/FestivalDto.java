@@ -19,6 +19,7 @@ public class FestivalDto {
     private double tarifPass;
     private String codePostal;
     private String lieuPrincipal;
+    private SousDomaineDto sousDomaine;
     // Getters et Setters
     // ...
 }

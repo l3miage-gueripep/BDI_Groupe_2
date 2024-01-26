@@ -2,12 +2,10 @@ package fr.uga.miage.m1.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import fr.uga.miage.m1.entities.Festival;
 import fr.uga.miage.m1.entities.SousDomaine;
 import fr.uga.miage.m1.mapper.FestivalMapper;

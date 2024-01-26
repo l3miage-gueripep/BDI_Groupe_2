@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DomaineDto {
+public class SousDomaineDto {
+    private String nomSousDomaine;
     private String nomDomaine;
 }

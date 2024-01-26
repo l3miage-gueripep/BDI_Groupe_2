@@ -22,7 +22,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Festival {
-
     @Id
     @Column
     private String nomManifestation;

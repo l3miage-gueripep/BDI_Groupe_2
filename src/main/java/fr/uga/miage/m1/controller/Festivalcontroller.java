@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import fr.uga.miage.m1.dto.FestivalDto;
 import fr.uga.miage.m1.requests.FestivalFilterRequest;
@@ -18,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class Festivalcontroller {
+public class FestivalController {
     private final FestivalService festivalService;
 
     @GetMapping("festival/")
@@ -33,5 +32,4 @@ public class Festivalcontroller {
     List<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest request){
         return festivalService.getByFilter(request);
     }
-
 }

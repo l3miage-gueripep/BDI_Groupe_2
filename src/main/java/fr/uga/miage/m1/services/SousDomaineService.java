@@ -15,10 +15,6 @@ public class SousDomaineService {
     private final SousDomaineRepo repo;
 
     public SousDomaine create(SousDomaine sousDomaine) {
-        // SousDomaine newSousDomaineEntity = new SousDomaine();
-        // newSousDomaineEntity.setNomSousDomaine(nomSousDomaine);
-        // System.out.println("nomSousDomaine: " +
-        // newSousDomaineEntity.getNomSousDomaine());
         return repo.save(sousDomaine);
     }
 }

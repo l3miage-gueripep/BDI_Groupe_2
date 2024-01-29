@@ -11,8 +11,7 @@ public class OffreCovoiturageDto {
     private Long idOffreCovoiturage;
     private String modeleVoiture;
     private int nbPlaces;
-    private double prixCovoiturage;
     // private Conducteur conducteur;
-    // private Festival festival;
+    private FestivalDto festival;
     // private PanierOffre panierOffre;
 }

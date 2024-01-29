@@ -53,7 +53,7 @@ public class Festival {
 
     @ManyToOne
     @JoinColumn(name = "id_adherent")
-    private Organisateur organisateur;
+    private Adherent organisateur;
 
     @ManyToOne
     @JoinColumn(name = "nom_sous_domaine")

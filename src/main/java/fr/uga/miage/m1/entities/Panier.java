@@ -31,7 +31,7 @@ public class Panier {
 
     @ManyToOne
     @JoinColumn(name = "nom_manifestation")
-    private Festivalier festivalier;
+    private Adherent adherent;
 
     @OneToMany(mappedBy = "panier")
     private List<PanierOffre> panierOffres;

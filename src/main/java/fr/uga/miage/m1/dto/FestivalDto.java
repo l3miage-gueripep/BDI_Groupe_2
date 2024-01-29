@@ -1,7 +1,6 @@
 package fr.uga.miage.m1.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class FestivalDto {
-
     private String nomManifestation;
     private String siteWeb;
     private Date dateDebut;

@@ -8,8 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,13 +21,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "adherent")
-@Inheritance(strategy = InheritanceType.JOINED)
-@SequenceGenerator(name = "sequence_generator", sequenceName = "adherent_seq", allocationSize = 1)
-public abstract class Adherent {
-
+public class Adherent {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
-    private int idAdherent;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "test")
+    @SequenceGenerator(name = "test", allocationSize = 1, initialValue = 20095)
+    private Integer idAdherent;
 
     @Column
     private String prenom;
@@ -43,8 +39,10 @@ public abstract class Adherent {
     @Column
     private String telephone;
 
-    @Column(name = "role", nullable = false, insertable = false, updatable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // @OneToMany(mappedBy = "adherent")
+    // List<Panier> paniers;
 }

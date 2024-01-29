@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import fr.uga.miage.m1.entities.Adherent;
 
 @Repository
-public interface AdherentRepo  extends JpaRepository<Adherent, Integer>{
-    
+public interface AdherentRepo extends JpaRepository<Adherent, Long>{
+    Adherent findByMail(String mail);
 }

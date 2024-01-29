@@ -3,6 +3,8 @@ package fr.uga.miage.m1.entities;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,13 +21,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "covoiturage_lieu")
 public class CovoiturageLieu {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long idCovoiturageLieu;
+
     @ManyToOne
     @JoinColumn(name = "id_covoiturage")
     private OffreCovoiturage offreCovoiturage;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_lieu")
     private LieuCovoiturage lieuCovoiturage;

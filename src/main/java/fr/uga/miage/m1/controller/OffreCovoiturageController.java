@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +39,7 @@ public class OffreCovoiturageController {
         return covoiturageService.getAllByFestival(pageable, nomManifestation);
     }
 
-    @PutMapping("covoiturage/{idOffre}/buy/{nbPlaces}")
+    @PatchMapping("covoiturage/{idOffre}/buy/{nbPlaces}")
     OffreCovoiturageDto prendrePlaces(@PathVariable final Long idOffre, @PathVariable final int nbPlaces){
         return covoiturageService.prendrePlaces(idOffre, nbPlaces);
     }

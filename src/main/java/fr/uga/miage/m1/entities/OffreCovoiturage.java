@@ -1,5 +1,7 @@
 package fr.uga.miage.m1.entities;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,12 +19,10 @@ public class OffreCovoiturage {
     private String modeleVoiture;
     @Column
     private int nbPlaces;
-    @Column
-    private double prixCovoiturage;
 
     @ManyToOne
     @JoinColumn(name = "id_adherent")
-    private Conducteur conducteur;
+    private Adherent adherent;
 
     @ManyToOne
     @JoinColumn(name = "nom_manifestation")
@@ -30,5 +30,8 @@ public class OffreCovoiturage {
 
     @ManyToOne
     private PanierOffre panierOffre;
+
+    @ManyToMany
+    private List<CovoiturageLieu> covoiturageLieux;
 
 }

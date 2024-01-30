@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import fr.uga.miage.m1.dto.FestivalDto;
@@ -20,7 +21,7 @@ public class FestivalControllers {
     private final FestivalService festivalService;
 
     @GetMapping("festival/")
-    List<FestivalDto> getAll(Pageable pageable){
+    Page<FestivalDto> getAll(Pageable pageable){
         return festivalService.getAll(pageable);
     }
     @GetMapping("festival/{nomManifestation}")

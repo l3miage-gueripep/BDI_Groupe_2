@@ -31,11 +31,10 @@ public class FestivalService {
         return repo.save(festival);
     }
 
-    public List<FestivalDto> getAll(Pageable pageable) {
+    public Page<FestivalDto> getAll(Pageable pageable) {
         Page<Festival> festivals = repo.findAll(pageable);
-        return festivals.stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
+        Page<FestivalDto> festivalsDtos = festivals.map(mapper::toDto);
+        return festivalsDtos;
     }
 
     public FestivalDto getById(String nomManifestation) {

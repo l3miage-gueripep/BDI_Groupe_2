@@ -22,7 +22,7 @@ public class OffreCovoiturage {
 
     @ManyToOne
     @JoinColumn(name = "id_adherent")
-    private Adherent adherent;
+    private Adherent conducteur;
 
     @ManyToOne
     @JoinColumn(name = "nom_manifestation")

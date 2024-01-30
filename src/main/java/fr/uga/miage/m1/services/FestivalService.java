@@ -50,7 +50,7 @@ public class FestivalService {
         if (filtre.getSousDomaine() != null) {
             festivalExample.setSousDomaine(SousDomaine.builder().nomSousDomaine(filtre.getSousDomaine()).build());
         }
-        festivalExample.setDateDebut(filtre.getDateDebut());;
+        festivalExample.setDateDebut(filtre.getDateDebut());
         festivalExample.setDateFin(filtre.getDateFin());
 
         Example<Festival> example = Example.of(festivalExample);
@@ -59,5 +59,22 @@ public class FestivalService {
         return festivals.stream()
             .map(mapper::toDto)
             .collect(Collectors.toList());
+    }
+
+    public List<String> getAllLieuPrincipal() {
+        return  repo.findAll()
+            .stream().map(mapper::toDto).toList()
+            .stream().map(FestivalDto::getLieuPrincipal)
+            .distinct()  
+            .toList();  
+    }
+
+    public List<String> getAllDomaine() {
+        return  repo.findAll()
+            .stream().map(mapper::toDto).toList()
+            .stream().map(FestivalDto::getSousDomaine)
+            .map(SousDomaineDto::getNomDomaine)
+            .distinct()  
+            .toList();  
     }
 }

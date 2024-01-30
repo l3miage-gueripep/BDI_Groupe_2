@@ -31,4 +31,14 @@ public class FestivalControllers {
     List<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest request){
         return festivalService.getByFilter(request);
     }
+
+    @GetMapping("festival/allCity")
+    List<String> getAllCity(){
+        return festivalService.getAllLieuPrincipal();
+    }
+
+    @GetMapping("festival/allDomaine")
+    List<String> getAllDomaine(){
+        return festivalService.getAllDomaine();
+    }
 }

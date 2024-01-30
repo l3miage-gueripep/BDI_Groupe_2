@@ -1,8 +1,10 @@
 package fr.uga.miage.m1.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,9 +37,8 @@ public class CovoiturageLieu {
     @JoinColumn(name = "id_lieu")
     private LieuCovoiturage lieuCovoiturage;
 
-    @ManyToMany
-    @JoinColumn(name = "id_panier_offre")
-    private List<PanierOffre> panierOffre;
+    @ManyToMany(mappedBy = "covoiturageLieux", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<PanierOffre> panierOffres = new ArrayList<>();
 
     private LocalDateTime horaire;
 

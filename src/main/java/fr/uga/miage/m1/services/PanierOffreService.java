@@ -17,5 +17,9 @@ public class PanierOffreService {
     public PanierOffre save(PanierOffre panierOffre) {
         return this.repo.save(panierOffre);
     }
+
+    public void deleteAll() {
+        this.repo.deleteAll();
+    }
     
 }

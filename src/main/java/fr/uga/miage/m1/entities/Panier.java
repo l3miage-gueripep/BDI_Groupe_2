@@ -24,8 +24,6 @@ public class Panier {
     @Column
     private Etat etat;
 
-    @ManyToMany
-    private List<OffreCovoiturage> offresCovoiturage;
 
     @ManyToOne
     @JoinColumn(name = "id_adherent")

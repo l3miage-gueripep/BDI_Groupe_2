@@ -11,14 +11,15 @@ import fr.uga.miage.m1.entities.CovoiturageLieu;
 import fr.uga.miage.m1.entities.Festival;
 import fr.uga.miage.m1.entities.Panier;
 import fr.uga.miage.m1.entities.PanierOffre;
-import fr.uga.miage.m1.mapper.AdherentMapper;
 import fr.uga.miage.m1.mapper.CovoiturageLieuMapper;
 import fr.uga.miage.m1.mapper.PanierMapper;
 import fr.uga.miage.m1.repos.AdherentRepo;
 import fr.uga.miage.m1.repos.PanierRepo;
 import fr.uga.miage.m1.requests.CreatePanierRequest;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
 
 
 @Service
@@ -34,6 +35,8 @@ public class PanierService {
 
     private final PanierOffreService panierOffreService;
 
+    private final EntityManager entityManager;
+
     public PanierDto create(CreatePanierRequest createPanierRequest) {
         PanierDto panierDto = new PanierDto();
         panierDto.setEtat(createPanierRequest.getEtat());
@@ -44,31 +47,31 @@ public class PanierService {
     }
 
     public List<PanierDto> getAll() {
-        List<PanierDto> paniers = repo.findAll().stream()
+        List<Panier> paniers = repo.findAll();
+        List<PanierDto> paniersDtos = paniers.stream()
             .map(mapper::toDto)
             .collect(Collectors.toList());
-        return paniers;
+        return paniersDtos;
     }
 
     public PanierDto addLieu(Long idPanier, Long idLieu) {
         Panier panier = repo.findById(idPanier).get();
-        CovoiturageLieu covoiturageLieu = covoiturageLieuMapper.toEntity(covoiturageLieuService.getById(idLieu));
+        CovoiturageLieu covoiturageLieu = covoiturageLieuService.getEntityById(idLieu);
         Festival festival = covoiturageLieu.getOffreCovoiturage().getFestival();
         //find the panierOffre with the same festival or create a new one
         PanierOffre panierOffre = panier.getPanierOffres().stream()
-            .filter(p -> p.getFestival().equals(festival))
-            .findFirst()
-            .orElse(PanierOffre.builder()
-                .panier(panier)
-                .covoiturageLieux(new ArrayList<>())
-                .build());
-        //add the covoiturageLieu to the panierOffre
+                    .filter(p -> p.getFestival() != null && p.getFestival().equals(festival))
+                    .findFirst()
+                    .orElse(PanierOffre.builder()
+                        .panier(panier)
+                        .covoiturageLieux(new ArrayList<>())
+                        .build());
+        panierOffre.setPanier(panier);
+        panierOffre = panierOffreService.save(panierOffre);
+
         panierOffre.getCovoiturageLieux().add(covoiturageLieu);
-        //add the panierOffre to the panier
+        panierOffre.setPanier(panier);
         panier.getPanierOffres().add(panierOffre);
-        //save panierOffre
-        panierOffreService.save(panierOffre);
-        //save the panier
         return mapper.toDto(repo.save(panier));
     }
 }

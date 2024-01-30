@@ -38,6 +38,10 @@ public class CovoiturageLieuService {
         return mapper.toDto(repo.save(covoiturageLieu));
     }
 
+    public CovoiturageLieuDto save(CovoiturageLieu covoiturageLieuDto) {
+        return mapper.toDto(repo.save(covoiturageLieuDto));
+    }
+
     public List<CovoiturageLieuDto> getAll() {
         List<CovoiturageLieuDto> covoiturageLieux = repo.findAll().stream()
             .map(mapper::toDto)
@@ -46,6 +50,10 @@ public class CovoiturageLieuService {
     }
 
     public CovoiturageLieuDto getById(Long id) {
-        return mapper.toDto(repo.findById(id).get());
+        return mapper.toDto(getEntityById(id));
+    }
+
+    public CovoiturageLieu getEntityById(Long id) {
+        return repo.findById(id).get();
     }
 }

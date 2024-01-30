@@ -42,7 +42,7 @@ public class FestivalService {
         return mapper.toDto(festival);
     }
 
-    public List<FestivalDto> getByFilter(FestivalFilterRequest filtre){
+    public Page<FestivalDto> getByFilter(FestivalFilterRequest filtre, Pageable pageable) {
         Festival festivalExample = new Festival();
         festivalExample.setLieuPrincipal(filtre.getLieuPrincipal());
         festivalExample.setTarifPass(null);
@@ -53,11 +53,9 @@ public class FestivalService {
         festivalExample.setDateFin(filtre.getDateFin());
 
         Example<Festival> example = Example.of(festivalExample);
-        List<Festival> festivals = repo.findAll(example);
+        Page<Festival> festivals = repo.findAll(example, pageable);
 
-        return festivals.stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
+        return festivals.map(mapper::toDto);
     }
 
     public List<String> getAllLieuPrincipal() {

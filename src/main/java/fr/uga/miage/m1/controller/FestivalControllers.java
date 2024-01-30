@@ -29,8 +29,8 @@ public class FestivalControllers {
         return festivalService.getById(nomManifestation);
     }
     @PostMapping("festival/filter")
-    List<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest request){
-        return festivalService.getByFilter(request);
+    Page<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest filtre, Pageable pageable){
+        return festivalService.getByFilter(filtre, pageable);
     }
 
     @GetMapping("festival/allCity")

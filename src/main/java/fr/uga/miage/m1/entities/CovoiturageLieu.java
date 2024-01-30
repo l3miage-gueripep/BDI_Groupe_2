@@ -1,6 +1,7 @@
 package fr.uga.miage.m1.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +36,8 @@ public class CovoiturageLieu {
     private LieuCovoiturage lieuCovoiturage;
 
     @ManyToMany
-    private PanierOffre panierOffre;
+    @JoinColumn(name = "id_panier_offre")
+    private List<PanierOffre> panierOffre;
 
     private LocalDateTime horaire;
 

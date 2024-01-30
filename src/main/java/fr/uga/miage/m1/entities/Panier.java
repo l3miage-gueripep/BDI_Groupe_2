@@ -17,8 +17,10 @@ public class Panier {
     @GeneratedValue
     @Column
     private Long idPanier;
+
     @Column
     private Date datePanier;
+    
     @Column
     private Etat etat;
 

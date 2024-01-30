@@ -1,5 +1,7 @@
 package fr.uga.miage.m1.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,5 +15,5 @@ public class OffreCovoiturageDto {
     private int nbPlaces;
     private AdherentDto conducteur;
     private FestivalDto festival;
-    // private PanierOffre panierOffre;
+    private List<CovoiturageLieuDto> covoiturageLieux;
 }

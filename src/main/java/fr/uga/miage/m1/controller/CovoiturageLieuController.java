@@ -3,6 +3,7 @@ package fr.uga.miage.m1.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +26,11 @@ public class CovoiturageLieuController {
     @GetMapping("covoiturageLieu/")
     List<CovoiturageLieuDto> getAll(){
         return covoiturageLieuService.getAll();
+    }
+
+
+    @GetMapping("covoiturageLieu/{idOffreCovoiturage}")
+    List<CovoiturageLieuDto> getCovoituragesLieusByOffreCovoiturage(@PathVariable final Long idOffreCovoiturage){
+        return covoiturageLieuService.getCovoituragesLieusByOffreCovoiturage(idOffreCovoiturage);
     }
 }

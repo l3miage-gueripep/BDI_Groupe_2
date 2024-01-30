@@ -56,4 +56,11 @@ public class CovoiturageLieuService {
     public CovoiturageLieu getEntityById(Long id) {
         return repo.findById(id).get();
     }
+
+    public List<CovoiturageLieuDto> getCovoituragesLieusByOffreCovoiturage(Long idOffreCovoiturage){
+        List<CovoiturageLieuDto> covoiturageLieux = repo.findByOffreCovoiturageIdOffreCovoiturage(idOffreCovoiturage).stream()
+            .map(mapper::toDto)
+            .collect(Collectors.toList());
+        return covoiturageLieux;
+    }
 }

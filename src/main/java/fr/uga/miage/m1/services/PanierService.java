@@ -49,10 +49,8 @@ public class PanierService {
 
     public PanierDto addLieu(Long idPanier, Long idLieu) {
         Panier panier = repo.findById(idPanier).get();
-        // panier.getPanierOffres().add(null);
-        // CovoiturageLieu covoiturageLieu = covoiturageLieuMapper.toEntity(covoiturageLieuService.getById(idLieu));
-        // panier.getOffresCovoiturage().
-        // panier.getLieux().add(idLieu);
+        CovoiturageLieu covoiturageLieu = covoiturageLieuMapper.toEntity(covoiturageLieuService.getById(idLieu));
+        panier.getPanierOffres().
         return mapper.toDto(repo.save(panier));
     }
 }

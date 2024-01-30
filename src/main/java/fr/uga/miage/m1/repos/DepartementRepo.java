@@ -3,6 +3,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.uga.miage.m1.entities.Departement;
 
-public interface DepartementRepo  extends JpaRepository<Departement, String>{
+public interface DepartementRepo extends JpaRepository<Departement, String>{
     
 }

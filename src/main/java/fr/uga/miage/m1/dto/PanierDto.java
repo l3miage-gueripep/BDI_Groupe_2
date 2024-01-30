@@ -17,7 +17,7 @@ public class PanierDto {
     private Long idPanier;
     private Date datePanier;
     private double prix;
-    private int nbPlaces;
     private Etat etat;
+    private String userMail;
     private List<CovoiturageLieuDto> covoiturageLieux;
 }

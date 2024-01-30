@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CovoiturageLieuDto {
+    private Long idCovoiturageLieu;
     private OffreCovoiturageDto offreCovoiturage;
     private LieuCovoiturageDto lieuCovoiturage;
     private LocalDateTime horaire;

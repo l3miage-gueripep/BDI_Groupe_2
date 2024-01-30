@@ -20,17 +20,13 @@ public class Panier {
     @Column
     private Date datePanier;
     @Column
-    private double prix;
-    @Column
-    private int nbPlaces;
-    @Column
     private Etat etat;
 
     @ManyToMany
     private List<OffreCovoiturage> offresCovoiturage;
 
     @ManyToOne
-    @JoinColumn(name = "nom_manifestation")
+    @JoinColumn(name = "id_adherent")
     private Adherent adherent;
 
     @OneToMany(mappedBy = "panier")

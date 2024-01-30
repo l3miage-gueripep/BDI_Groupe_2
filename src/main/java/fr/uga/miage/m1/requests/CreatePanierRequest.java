@@ -1,7 +1,6 @@
 package fr.uga.miage.m1.requests;
 
 import java.sql.Date;
-
 import fr.uga.miage.m1.Etat;
 import lombok.Builder;
 import lombok.Data;

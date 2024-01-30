@@ -9,6 +9,6 @@ import fr.uga.miage.m1.entities.OffreCovoiturage;
 
 @Repository
 public interface OffreCovoiturageRepo extends JpaRepository<OffreCovoiturage, Long>{
-    Page<OffreCovoiturage> findAllByFestival(Pageable pageable, String nomManifestation);
+    Page<OffreCovoiturage> findAllByFestivalNomManifestation(String nomManifestation, Pageable pageable);
 
 }

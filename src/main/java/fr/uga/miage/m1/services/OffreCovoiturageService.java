@@ -35,7 +35,7 @@ public class OffreCovoiturageService {
     }
 
     public List<OffreCovoiturageDto> getAllByFestival(Pageable pageable, String nomManifestation) {
-        Page<OffreCovoiturage> offresCovoiturage = repo.findAllByFestival(pageable, nomManifestation);
+        Page<OffreCovoiturage> offresCovoiturage = repo.findAllByFestivalNomManifestation(nomManifestation, pageable);
         return offresCovoiturage.stream()
             .map(mapper::toDto)
             .collect(Collectors.toList());

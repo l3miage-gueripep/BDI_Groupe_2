@@ -34,8 +34,8 @@ public class OffreCovoiturageController {
         return covoiturageService.getById(idOffre);
     }
 
-    @GetMapping("covoiturage/festival/{idFestival}")
-    List<OffreCovoiturageDto> getAllByFestival(Pageable pageable, String nomManifestation){
+    @GetMapping("covoiturage/festival/{nomManifestation}")
+    List<OffreCovoiturageDto> getAllByFestival(Pageable pageable, @PathVariable String nomManifestation){
         return covoiturageService.getAllByFestival(pageable, nomManifestation);
     }
 

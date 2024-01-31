@@ -1,7 +1,6 @@
 package fr.uga.miage.m1.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 

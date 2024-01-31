@@ -1,7 +1,7 @@
 package fr.uga.miage.m1.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -24,14 +24,23 @@ public class LieuCovoiturageService {
     }
 
     public List<LieuCovoiturageDto> getAll() {
-        List<LieuCovoiturageDto> lieuCovoiturages = lieuCovoiturageRepo.findAll().stream()
+        
+        return lieuCovoiturageRepo.findAll().stream()
             .map(lieuCovoiturageMapper::toDto)
-            .collect(Collectors.toList());
-        return lieuCovoiturages;
+            .toList();
     }
 
     public LieuCovoiturageDto getById(String idLieuCovoiturage) {
-        LieuCovoiturage lieuCovoiturage = lieuCovoiturageRepo.findById(idLieuCovoiturage).get();
-        return lieuCovoiturageMapper.toDto(lieuCovoiturage);
+        //code original avant sonar
+        //LieuCovoiturage lieuCovoiturage = lieuCovoiturageRepo.findById(idLieuCovoiturage).get();
+        //return lieuCovoiturageMapper.toDto(lieuCovoiturage);
+
+        //code apres sonar ( vérifier que ça fonctionne)
+        Optional<LieuCovoiturage> optionalLieuCovoiturage = lieuCovoiturageRepo.findById(idLieuCovoiturage);
+        if (optionalLieuCovoiturage.isPresent()) {
+            LieuCovoiturage lieuCovoiturage = optionalLieuCovoiturage.get();
+            return lieuCovoiturageMapper.toDto(lieuCovoiturage);
+        }
+        return null; 
     }
 }

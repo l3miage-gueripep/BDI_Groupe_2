@@ -15,9 +15,7 @@ public class RegionService {
     private final RegionRepo repo;
 
     public Region create(Region region) {
-        // Region newRegionEntity = new Region();
-        // newRegionEntity.setNomRegion(nomRegion);
-        // System.out.println("nomRegion: " + newRegionEntity.getNomRegion());
+
         return repo.save(region);
     }
 }

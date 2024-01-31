@@ -15,9 +15,7 @@ public class DomaineService {
     private final DomaineRepo repo;
 
     public Domaine create(Domaine domaine) {
-        // Domaine newDomaineEntity = new Domaine();
-        // newDomaineEntity.setNomDomaine(nomDomaine);
-        // System.out.println("nomDomaine: " + newDomaineEntity.getNomDomaine());
+       
         return repo.save(domaine);
     }
 

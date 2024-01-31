@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import fr.uga.miage.m1.Etat;
-import fr.uga.miage.m1.entities.CovoiturageLieu;
-import fr.uga.miage.m1.entities.PanierOffre;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

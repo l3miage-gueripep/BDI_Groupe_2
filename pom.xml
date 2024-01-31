@@ -11,7 +11,7 @@
 	<groupId>fr.uga.miage.m1</groupId>
 	<artifactId>visiopad_g2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>projet-BDI-gp7</name>
+	<name>visiopad_g2</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>

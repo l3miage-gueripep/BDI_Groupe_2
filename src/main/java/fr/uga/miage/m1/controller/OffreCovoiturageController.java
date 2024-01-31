@@ -20,29 +20,28 @@ public class OffreCovoiturageController {
     private final OffreCovoiturageService covoiturageService;
 
     @PostMapping("covoiturage")
-    OffreCovoiturageDto create(@RequestBody final OffreCovoiturageDto offreCovoiturageDto){
+    public OffreCovoiturageDto create(@RequestBody final OffreCovoiturageDto offreCovoiturageDto) {
         return covoiturageService.create(offreCovoiturageDto);
     }
 
     @GetMapping("covoiturage")
-    List<OffreCovoiturageDto> getAll(Pageable pageable){
+    public List<OffreCovoiturageDto> getAll(Pageable pageable) {
         return covoiturageService.getAll(pageable);
     }
 
     @GetMapping("covoiturage/{idOffre}")
-    OffreCovoiturageDto getById(@PathVariable final Long idOffre){
+    public OffreCovoiturageDto getById(@PathVariable final Long idOffre) {
         return covoiturageService.getById(idOffre);
     }
 
     @GetMapping("covoiturage/festival/{nomManifestation}")
-    List<OffreCovoiturageDto> getAllByFestival(Pageable pageable, @PathVariable String nomManifestation){
+    public List<OffreCovoiturageDto> getAllByFestival(Pageable pageable, @PathVariable String nomManifestation) {
         return covoiturageService.getAllByFestival(pageable, nomManifestation);
     }
 
     @PatchMapping("covoiturage/{idOffre}/buy/{nbPlaces}")
-    OffreCovoiturageDto prendrePlaces(@PathVariable final Long idOffre, @PathVariable final int nbPlaces){
+    public OffreCovoiturageDto prendrePlaces(@PathVariable final Long idOffre, @PathVariable final int nbPlaces) {
         return covoiturageService.prendrePlaces(idOffre, nbPlaces);
     }
-
 
 }

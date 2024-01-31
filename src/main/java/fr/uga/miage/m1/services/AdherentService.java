@@ -22,14 +22,13 @@ public class AdherentService {
     public AdherentDto create(AdherentDto adherentDto) {
         Adherent adh = mapper.toEntity(adherentDto);
         adh.setIdAdherent(null);
-        AdherentDto adherent = mapper.toDto(repo.save(adh));
-        return adherent;
+        return mapper.toDto(repo.save(adh));
     }
 
     public List<AdherentDto> getAll() {
         List<AdherentDto> adherents = repo.findAll().stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
         return adherents;
     }
 }

@@ -21,25 +21,27 @@ public class FestivalControllers {
     private final FestivalService festivalService;
 
     @GetMapping("festival/")
-    Page<FestivalDto> getAll(Pageable pageable){
+    public Page<FestivalDto> getAll(Pageable pageable) {
         return festivalService.getAll(pageable);
     }
+
     @GetMapping("festival/{nomManifestation}")
-    FestivalDto getById(@PathVariable final String nomManifestation){
+    public FestivalDto getById(@PathVariable final String nomManifestation) {
         return festivalService.getById(nomManifestation);
     }
+
     @PostMapping("festival/filter")
-    Page<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest filtre, Pageable pageable){
+    public Page<FestivalDto> getByFilter(@RequestBody final FestivalFilterRequest filtre, Pageable pageable) {
         return festivalService.getByFilter(filtre, pageable);
     }
 
     @GetMapping("festival/allCity")
-    List<String> getAllCity(){
+    public List<String> getAllCity() {
         return festivalService.getAllLieuPrincipal();
     }
 
     @GetMapping("festival/allDomaine")
-    List<String> getAllDomaine(){
+    public List<String> getAllDomaine() {
         return festivalService.getAllDomaine();
     }
 }

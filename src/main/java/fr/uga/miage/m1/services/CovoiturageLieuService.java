@@ -1,7 +1,8 @@
 package fr.uga.miage.m1.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import fr.uga.miage.m1.mapper.CovoiturageLieuMapper;
 import fr.uga.miage.m1.mapper.LieuCovoiturageMapper;
 import fr.uga.miage.m1.mapper.OffreCovoiturageMapper;
 import fr.uga.miage.m1.repos.CovoiturageLieuRepo;
-import fr.uga.miage.m1.repos.OffreCovoiturageRepo;
 import fr.uga.miage.m1.requests.CreateCovoiturageLieuRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +33,10 @@ public class CovoiturageLieuService {
         CovoiturageLieu covoiturageLieu = new CovoiturageLieu();
         covoiturageLieu.setPrix(covoiturageLieuDto.getPrix());
         covoiturageLieu.setHoraire(covoiturageLieuDto.getHoraire());
-        covoiturageLieu.setOffreCovoiturage(offreCovoiturageMapper.toEntity(offreCovoiturageService.getById(covoiturageLieuDto.getIdOffreCovoiturage())));
-        covoiturageLieu.setLieuCovoiturage(lieuCovoiturageMapper.toEntity(lieuCovoiturageService.getById(covoiturageLieuDto.getIdLieuCovoiturage())));
+        covoiturageLieu.setOffreCovoiturage(offreCovoiturageMapper
+                .toEntity(offreCovoiturageService.getById(covoiturageLieuDto.getIdOffreCovoiturage())));
+        covoiturageLieu.setLieuCovoiturage(lieuCovoiturageMapper
+                .toEntity(lieuCovoiturageService.getById(covoiturageLieuDto.getIdLieuCovoiturage())));
         return mapper.toDto(repo.save(covoiturageLieu));
     }
 
@@ -43,10 +45,9 @@ public class CovoiturageLieuService {
     }
 
     public List<CovoiturageLieuDto> getAll() {
-        List<CovoiturageLieuDto> covoiturageLieux = repo.findAll().stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
-        return covoiturageLieux;
+        return repo.findAll().stream()
+                .map(mapper::toDto)
+                .toList();
     }
 
     public CovoiturageLieuDto getById(Long id) {
@@ -54,13 +55,20 @@ public class CovoiturageLieuService {
     }
 
     public CovoiturageLieu getEntityById(Long id) {
-        return repo.findById(id).get();
+        Optional<CovoiturageLieu> optionalCovoitLieu = repo.findById(id);
+        CovoiturageLieu covoitLieu = null;
+        if (optionalCovoitLieu.isPresent()) {
+            covoitLieu = optionalCovoitLieu.get();
+        } else {
+            throw new NoSuchElementException("Pas de covoiturageLieu trouvé");
+        }
+        return covoitLieu;
     }
 
-    public List<CovoiturageLieuDto> getCovoituragesLieusByOffreCovoiturage(Long idOffreCovoiturage){
-        List<CovoiturageLieuDto> covoiturageLieux = repo.findByOffreCovoiturageIdOffreCovoiturage(idOffreCovoiturage).stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
-        return covoiturageLieux;
+    public List<CovoiturageLieuDto> getCovoituragesLieusByOffreCovoiturage(Long idOffreCovoiturage) {
+        return repo.findByOffreCovoiturageIdOffreCovoiturage(idOffreCovoiturage)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
     }
 }

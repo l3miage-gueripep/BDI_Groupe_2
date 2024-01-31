@@ -1,7 +1,8 @@
 package fr.uga.miage.m1.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,28 +27,40 @@ public class OffreCovoiturageService {
         OffreCovoiturage offreCovoiturageEntity = mapper.toEntity(offreCovoiturageDto);
         return mapper.toDto(repo.save(offreCovoiturageEntity));
     }
-    
+
     public List<OffreCovoiturageDto> getAll(@NonNull Pageable pageable) {
         Page<OffreCovoiturage> offresCovoiturage = repo.findAll(pageable);
         return offresCovoiturage.stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
+                .map(mapper::toDto)
+                .toList();
     }
 
     public List<OffreCovoiturageDto> getAllByFestival(Pageable pageable, String nomManifestation) {
         Page<OffreCovoiturage> offresCovoiturage = repo.findAllByFestivalNomManifestation(nomManifestation, pageable);
         return offresCovoiturage.stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
+                .map(mapper::toDto)
+                .toList();
     }
 
     public OffreCovoiturageDto getById(Long idOffre) {
-        OffreCovoiturage offreCovoiturage = repo.findById(idOffre).get();
+        Optional<OffreCovoiturage> optionalOffreCovoit = repo.findById(idOffre);
+        OffreCovoiturage offreCovoiturage = null;
+        if (optionalOffreCovoit.isPresent()) {
+            offreCovoiturage = optionalOffreCovoit.get();
+        } else {
+            throw new NoSuchElementException("Aucune offre de covoiturage trouvée");
+        }
         return mapper.toDto(offreCovoiturage);
     }
 
     public OffreCovoiturageDto prendrePlaces(Long idOffre, int nbPlaces) {
-        OffreCovoiturage offreCovoiturage = repo.findById(idOffre).get();
+        Optional<OffreCovoiturage> optionalOffreCovoit = repo.findById(idOffre);
+        OffreCovoiturage offreCovoiturage = null;
+        if (optionalOffreCovoit.isPresent()) {
+            offreCovoiturage = optionalOffreCovoit.get();
+        } else {
+            throw new NoSuchElementException("Aucune offre covoitutrage trouvée");
+        }
         offreCovoiturage.setNbPlaces(offreCovoiturage.getNbPlaces() - nbPlaces);
         repo.save(offreCovoiturage);
         return mapper.toDto(offreCovoiturage);

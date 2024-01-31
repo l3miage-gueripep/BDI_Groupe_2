@@ -15,5 +15,4 @@ public class OffreCovoiturageDto {
     private int nbPlaces;
     private AdherentDto conducteur;
     private FestivalDto festival;
-    private List<CovoiturageLieuDto> covoiturageLieux;
 }

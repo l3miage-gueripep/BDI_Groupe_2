@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import fr.uga.miage.m1.dto.CovoiturageLieuDto;
@@ -50,6 +52,12 @@ public class CovoiturageLieuService {
                 .toList();
     }
 
+    public Page<CovoiturageLieuDto> getAll(Pageable pageable) {
+        Page<CovoiturageLieu> covoiturageLieux = repo.findAll(pageable);
+        return covoiturageLieux.map(mapper::toDto);
+
+    }
+
     public CovoiturageLieuDto getById(Long id) {
         return mapper.toDto(getEntityById(id));
     }
@@ -70,5 +78,11 @@ public class CovoiturageLieuService {
                 .stream()
                 .map(mapper::toDto)
                 .toList();
+    }
+
+    public Page<CovoiturageLieuDto> getByIdFestival(Pageable pageable, String nomManifestation) {
+        Page<CovoiturageLieu> covoiturageLieux = repo.findByOffreCovoiturageFestivalNomManifestation(pageable,
+                nomManifestation);
+        return covoiturageLieux.map(mapper::toDto);
     }
 }

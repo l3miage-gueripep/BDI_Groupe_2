@@ -26,9 +26,8 @@ public class AdherentService {
     }
 
     public List<AdherentDto> getAll() {
-        List<AdherentDto> adherents = repo.findAll().stream()
+        return repo.findAll().stream()
                 .map(mapper::toDto)
-                .collect(Collectors.toList());
-        return adherents;
+                .toList();
     }
 }

@@ -32,6 +32,11 @@ public class CovoiturageLieuController {
         return covoiturageLieuService.getAll(pageable);
     }
 
+    @GetMapping("covoiturageLieu/{idCovoiturageLieu}")
+    CovoiturageLieuDto getById(@PathVariable final Long idCovoiturageLieu){
+        return covoiturageLieuService.getById(idCovoiturageLieu);
+    }
+
     @GetMapping("festival/{nomManifestation}/covoituragelieu")
     Page<CovoiturageLieuDto> getByIdFestival(Pageable pageable, @PathVariable final String nomManifestation){
         return covoiturageLieuService.getByIdFestival(pageable, nomManifestation);

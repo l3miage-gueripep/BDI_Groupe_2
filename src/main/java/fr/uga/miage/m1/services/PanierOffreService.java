@@ -2,7 +2,6 @@ package fr.uga.miage.m1.services;
 
 import org.springframework.stereotype.Service;
 
-import fr.uga.miage.m1.dto.PanierOffreDto;
 import fr.uga.miage.m1.entities.PanierOffre;
 import fr.uga.miage.m1.repos.PanierOffreRepo;
 import jakarta.transaction.Transactional;
@@ -21,5 +20,5 @@ public class PanierOffreService {
     public void deleteAll() {
         this.repo.deleteAll();
     }
-    
+
 }

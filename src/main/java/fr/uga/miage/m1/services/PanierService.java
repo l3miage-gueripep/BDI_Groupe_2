@@ -1,11 +1,17 @@
 package fr.uga.miage.m1.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import fr.uga.miage.m1.Etat;
 import fr.uga.miage.m1.dto.PanierDto;
 import fr.uga.miage.m1.entities.CovoiturageLieu;
 import fr.uga.miage.m1.entities.Festival;
@@ -54,24 +60,45 @@ public class PanierService {
         return paniersDtos;
     }
 
-    public PanierDto addLieu(Long idPanier, Long idLieu) {
-        Panier panier = repo.findById(idPanier).get();
+    public PanierDto addLieu(String userMail, Long idLieu, int quantite) {
+        Panier panier = this.getCurrentPanierEntityByUserMail(userMail)
+            .orElse(Panier.builder()
+                .adherent(adherentRepo.findByMail(userMail))
+                .etat(Etat.valueOf("Encours"))
+                .datePanier(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .build());
+
         CovoiturageLieu covoiturageLieu = covoiturageLieuService.getEntityById(idLieu);
-        Festival festival = covoiturageLieu.getOffreCovoiturage().getFestival();
-        //find the panierOffre with the same festival or create a new one
-        PanierOffre panierOffre = panier.getPanierOffres().stream()
-                    .filter(p -> p.getFestival() != null && p.getFestival().equals(festival))
-                    .findFirst()
-                    .orElse(PanierOffre.builder()
-                        .panier(panier)
-                        .covoiturageLieux(new ArrayList<>())
-                        .build());
+        PanierOffre panierOffre = PanierOffre.builder()
+            .panier(panier)
+            .covoiturageLieu(covoiturageLieu)
+            .quantite(quantite)
+            .build();
         panierOffre.setPanier(panier);
         panierOffre = panierOffreService.save(panierOffre);
-
-        panierOffre.getCovoiturageLieux().add(covoiturageLieu);
-        panierOffre.setPanier(panier);
         panier.getPanierOffres().add(panierOffre);
+        return mapper.toDto(repo.save(panier));
+    }
+
+
+    public Optional<PanierDto> getCurrentPanierByUserMail(String userMail) {
+        Optional<Panier> panierOptional = this.getCurrentPanierEntityByUserMail(userMail);
+        if (panierOptional.isPresent()) {
+            Panier panier = panierOptional.get();
+            return Optional.of(mapper.toDto(panier));
+        } else {
+            return Optional.empty();
+        }
+    }
+    public Optional<Panier> getCurrentPanierEntityByUserMail(String userMail) {
+        return repo.findByAdherentMailAndEtat(userMail, Etat.valueOf("Encours"));
+    }
+
+
+
+    public PanierDto setEtatToPaye(Long idPanier) {
+        Panier panier = repo.findById(idPanier).get();
+        panier.setEtat(Etat.valueOf("Paye"));
         return mapper.toDto(repo.save(panier));
     }
 }

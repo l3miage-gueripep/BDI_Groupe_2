@@ -3,6 +3,8 @@ package fr.uga.miage.m1.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import fr.uga.miage.m1.dto.CovoiturageLieuDto;
@@ -42,11 +44,9 @@ public class CovoiturageLieuService {
         return mapper.toDto(repo.save(covoiturageLieuDto));
     }
 
-    public List<CovoiturageLieuDto> getAll() {
-        List<CovoiturageLieuDto> covoiturageLieux = repo.findAll().stream()
-            .map(mapper::toDto)
-            .collect(Collectors.toList());
-        return covoiturageLieux;
+    public Page<CovoiturageLieuDto> getAll(Pageable pageable) {
+        Page<CovoiturageLieu> covoiturageLieux = repo.findAll(pageable);
+        return covoiturageLieux.map(mapper::toDto);
     }
 
     public CovoiturageLieuDto getById(Long id) {

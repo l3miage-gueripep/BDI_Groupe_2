@@ -2,7 +2,6 @@ package fr.uga.miage.m1.services;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import fr.uga.miage.m1.dto.CommuneDto;

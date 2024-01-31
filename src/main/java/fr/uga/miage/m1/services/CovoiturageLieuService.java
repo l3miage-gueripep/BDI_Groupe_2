@@ -14,10 +14,7 @@ import fr.uga.miage.m1.mapper.CovoiturageLieuMapper;
 import fr.uga.miage.m1.mapper.LieuCovoiturageMapper;
 import fr.uga.miage.m1.mapper.OffreCovoiturageMapper;
 import fr.uga.miage.m1.repos.CovoiturageLieuRepo;
-import fr.uga.miage.m1.repos.OffreCovoiturageRepo;
-import fr.uga.miage.m1.requests.CovoiturageLieuFilterRequest;
 import fr.uga.miage.m1.requests.CreateCovoiturageLieuRequest;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

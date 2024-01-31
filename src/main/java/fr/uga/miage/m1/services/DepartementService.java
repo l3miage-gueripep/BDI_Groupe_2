@@ -15,10 +15,7 @@ public class DepartementService {
     private final DepartementRepo repo;
 
     public Departement create(Departement departement) {
-        // Departement newDepartementEntity = new Departement();
-        // newDepartementEntity.setNumDepartement(numDepartement);
-        // System.out.println("numDepartement: " +
-        // newDepartementEntity.getNumDepartement());
+
         return repo.save(departement);
     }
 }

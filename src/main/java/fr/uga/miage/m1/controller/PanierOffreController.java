@@ -13,12 +13,12 @@ public class PanierOffreController {
     private final PanierOffreService panierOffreService;
 
     @DeleteMapping("panierOffre/")
-    void deleteAll() {
+    public void deleteAll() {
         panierOffreService.deleteAll();
     }
 
     @DeleteMapping("panierOffre/{idPanierOffre}")
-    void deleteById(@PathVariable final Long idPanierOffre){
+    public void deleteById(@PathVariable final Long idPanierOffre){
         panierOffreService.deleteById(idPanierOffre);
     }
 }

@@ -1,7 +1,6 @@
 package fr.uga.miage.m1.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +23,13 @@ public class FestivalService {
     private final FestivalMapper mapper;
 
     public Festival create(Festival festival) {
-        // Festival newFestivalEntity = new Festival();
-        // newFestivalEntity.setNomManifestation(nomManifestation);
-        // System.out.println("nomManifestation: " +
-        // newFestivalEntity.getNomManifestation());
+
         return repo.save(festival);
     }
 
     public Page<FestivalDto> getAll(Pageable pageable) {
         Page<Festival> festivals = repo.findAll(pageable);
-        Page<FestivalDto> festivalsDtos = festivals.map(mapper::toDto);
-        return festivalsDtos;
+        return festivals.map(mapper::toDto);
     }
 
     public FestivalDto getById(String nomManifestation) {

@@ -16,12 +16,12 @@ public class CommuneController {
     private final CommuneService communeService;
 
     @GetMapping("commune/")
-    List<CommuneDto> getAll(){
+    public List<CommuneDto> getAll(){
         return communeService.getAll();
     }
 
     @GetMapping("commune/{nomCommune}")
-    List<CommuneDto> getAllByNomCommune(@PathVariable final String nomCommune){
+    public List<CommuneDto> getAllByNomCommune(@PathVariable final String nomCommune){
         return communeService.getAllByNomCommune(nomCommune);
     }
 }

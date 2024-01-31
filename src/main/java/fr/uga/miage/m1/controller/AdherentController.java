@@ -17,12 +17,12 @@ public class AdherentController {
     private final AdherentService adherentService;
     
     @GetMapping("adherent/")
-    List<AdherentDto> getAll(){
+    public List<AdherentDto> getAll(){
         return adherentService.getAll();
     }
 
     @PostMapping("adherent/")
-    AdherentDto create(@RequestBody final AdherentDto adherentDto){
+    public AdherentDto create(@RequestBody final AdherentDto adherentDto){
         return adherentService.create(adherentDto);
     }
 

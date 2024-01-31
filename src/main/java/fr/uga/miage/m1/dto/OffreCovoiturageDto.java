@@ -14,5 +14,4 @@ public class OffreCovoiturageDto {
     private String modeleVoiture;
     private int nbPlaces;
     private AdherentDto conducteur;
-    private FestivalDto festival;
 }

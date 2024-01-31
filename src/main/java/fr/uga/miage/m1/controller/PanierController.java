@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.qos.logback.core.model.processor.PhaseIndicator;
 import fr.uga.miage.m1.dto.PanierDto;
+import fr.uga.miage.m1.requests.AddPanierOffreRequest;
 import fr.uga.miage.m1.requests.CreatePanierRequest;
 import fr.uga.miage.m1.services.PanierService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,13 @@ public class PanierController {
         return panierService.create(createPanierRequest);
     }
 
-    @PostMapping("panier/{idPanier}/add/{idLieu}")
-    PanierDto addLieu(@PathVariable final Long idPanier, @PathVariable final Long idLieu){
-        return panierService.addLieu(idPanier, idLieu);
+    @GetMapping("panier/{userMail}")
+    PanierDto getCurrentPanierByUserMail(@PathVariable final String userMail){
+        return panierService.getCurrentPanierByUserMail(userMail);
+    }
+
+    @PostMapping("panier/add/")
+    PanierDto addLieu(@RequestBody final AddPanierOffreRequest addPanierOffreRequest){
+        return panierService.addLieu(addPanierOffreRequest.getIdPanier(), addPanierOffreRequest.getIdCovoiturageLieu(), addPanierOffreRequest.getQuantite());
     }
 }

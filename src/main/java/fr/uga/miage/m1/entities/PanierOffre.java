@@ -35,16 +35,12 @@ public class PanierOffre {
     @JoinColumn(name = "ID_PANIER")
     private Panier panier;
     
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-        name = "panieroffre_covoituragelieu",
-        joinColumns = @JoinColumn(name = "panieroffre_id")
-    )
-    private List<CovoiturageLieu> covoiturageLieux = new ArrayList<>();
+    @ManyToOne
+    private CovoiturageLieu covoiturageLieu;
+    
+    private int quantite;
 
     public Festival getFestival() {
-        if(this.covoiturageLieux.isEmpty())
-            return null;
-        return this.covoiturageLieux.get(0).getOffreCovoiturage().getFestival();
+        return this.covoiturageLieu.getOffreCovoiturage().getFestival();
     }
 }

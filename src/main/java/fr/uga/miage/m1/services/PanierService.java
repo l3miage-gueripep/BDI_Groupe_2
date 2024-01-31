@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import fr.uga.miage.m1.Etat;
 import fr.uga.miage.m1.dto.PanierDto;
 import fr.uga.miage.m1.entities.CovoiturageLieu;
 import fr.uga.miage.m1.entities.Festival;
@@ -54,24 +55,23 @@ public class PanierService {
         return paniersDtos;
     }
 
-    public PanierDto addLieu(Long idPanier, Long idLieu) {
+    public PanierDto addLieu(Long idPanier, Long idLieu, int quantite) {
         Panier panier = repo.findById(idPanier).get();
         CovoiturageLieu covoiturageLieu = covoiturageLieuService.getEntityById(idLieu);
-        Festival festival = covoiturageLieu.getOffreCovoiturage().getFestival();
-        //find the panierOffre with the same festival or create a new one
-        PanierOffre panierOffre = panier.getPanierOffres().stream()
-                    .filter(p -> p.getFestival() != null && p.getFestival().equals(festival))
-                    .findFirst()
-                    .orElse(PanierOffre.builder()
-                        .panier(panier)
-                        .covoiturageLieux(new ArrayList<>())
-                        .build());
+        PanierOffre panierOffre = PanierOffre.builder()
+            .panier(panier)
+            .covoiturageLieu(covoiturageLieu)
+            .quantite(quantite)
+            .build();
         panierOffre.setPanier(panier);
         panierOffre = panierOffreService.save(panierOffre);
-
-        panierOffre.getCovoiturageLieux().add(covoiturageLieu);
-        panierOffre.setPanier(panier);
         panier.getPanierOffres().add(panierOffre);
         return mapper.toDto(repo.save(panier));
+    }
+
+
+    public PanierDto getCurrentPanierByUserMail(String userMail) {
+        Panier panier = repo.findByAdherentMailAndEtat(userMail, Etat.valueOf("Encours"));
+        return mapper.toDto(panier);
     }
 }

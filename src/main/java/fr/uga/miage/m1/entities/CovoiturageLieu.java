@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class CovoiturageLieu {
     @JoinColumn(name = "id_lieu")
     private LieuCovoiturage lieuCovoiturage;
 
-    @ManyToMany(mappedBy = "covoiturageLieux", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "covoiturageLieu", cascade = CascadeType.ALL)
     private List<PanierOffre> panierOffres = new ArrayList<>();
 
     private LocalDateTime horaire;

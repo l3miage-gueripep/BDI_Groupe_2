@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.uga.miage.m1.dto.CovoiturageLieuDto;
+import fr.uga.miage.m1.entities.CovoiturageLieu;
+import fr.uga.miage.m1.requests.CovoiturageLieuFilterRequest;
 import fr.uga.miage.m1.requests.CreateCovoiturageLieuRequest;
 import fr.uga.miage.m1.services.CovoiturageLieuService;
 import lombok.RequiredArgsConstructor;
@@ -40,4 +42,9 @@ public class CovoiturageLieuController {
     List<CovoiturageLieuDto> getCovoituragesLieusByOffreCovoiturage(@PathVariable final Long idOffreCovoiturage){
         return covoiturageLieuService.getCovoituragesLieusByOffreCovoiturage(idOffreCovoiturage);
     }
+
+    // @PostMapping("covoiturageLieu/filter")
+    // public Page<CovoiturageLieuDto> filter(@RequestBody final CovoiturageLieuFilterRequest filterRequest, Pageable pageable) {
+    //     return covoiturageLieuService.filter(filterRequest, pageable);
+    // }
 }

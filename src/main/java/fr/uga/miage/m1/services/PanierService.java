@@ -1,9 +1,14 @@
 package fr.uga.miage.m1.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import fr.uga.miage.m1.Etat;
@@ -55,8 +60,14 @@ public class PanierService {
         return paniersDtos;
     }
 
-    public PanierDto addLieu(Long idPanier, Long idLieu, int quantite) {
-        Panier panier = repo.findById(idPanier).get();
+    public PanierDto addLieu(String userMail, Long idLieu, int quantite) {
+        Panier panier = this.getCurrentPanierEntityByUserMail(userMail)
+            .orElse(Panier.builder()
+                .adherent(adherentRepo.findByMail(userMail))
+                .etat(Etat.valueOf("Encours"))
+                .datePanier(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .build());
+
         CovoiturageLieu covoiturageLieu = covoiturageLieuService.getEntityById(idLieu);
         PanierOffre panierOffre = PanierOffre.builder()
             .panier(panier)
@@ -70,8 +81,24 @@ public class PanierService {
     }
 
 
-    public PanierDto getCurrentPanierByUserMail(String userMail) {
-        Panier panier = repo.findByAdherentMailAndEtat(userMail, Etat.valueOf("Encours"));
-        return mapper.toDto(panier);
+    public Optional<PanierDto> getCurrentPanierByUserMail(String userMail) {
+        Optional<Panier> panierOptional = this.getCurrentPanierEntityByUserMail(userMail);
+        if (panierOptional.isPresent()) {
+            Panier panier = panierOptional.get();
+            return Optional.of(mapper.toDto(panier));
+        } else {
+            return Optional.empty();
+        }
+    }
+    public Optional<Panier> getCurrentPanierEntityByUserMail(String userMail) {
+        return repo.findByAdherentMailAndEtat(userMail, Etat.valueOf("Encours"));
+    }
+
+
+
+    public PanierDto setEtatToPaye(Long idPanier) {
+        Panier panier = repo.findById(idPanier).get();
+        panier.setEtat(Etat.valueOf("Paye"));
+        return mapper.toDto(repo.save(panier));
     }
 }

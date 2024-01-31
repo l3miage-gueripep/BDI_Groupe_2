@@ -27,4 +27,9 @@ public class PanierOffreController {
     void deleteAll(){
         panierOffreService.deleteAll();
     }
+
+    @DeleteMapping("panierOffre/{idPanierOffre}")
+    void deleteById(@PathVariable final Long idPanierOffre){
+        panierOffreService.deleteById(idPanierOffre);
+    }
 }

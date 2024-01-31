@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AddPanierOffreRequest {
-    Long idPanier;
+    String userMail;
     Long idCovoiturageLieu;
     int quantite;
 }

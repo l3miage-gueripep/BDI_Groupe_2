@@ -21,5 +21,9 @@ public class PanierOffreService {
     public void deleteAll() {
         this.repo.deleteAll();
     }
+
+    public void deleteById(Long idPanierOffre) {
+        this.repo.deleteByIdPanierOffre(idPanierOffre);
+    }
     
 }

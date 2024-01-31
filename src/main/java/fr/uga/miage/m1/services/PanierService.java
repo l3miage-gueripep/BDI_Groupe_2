@@ -37,11 +37,10 @@ public class PanierService {
     private final AdherentRepo adherentRepo;
 
     private final CovoiturageLieuService covoiturageLieuService;
-    private final CovoiturageLieuMapper covoiturageLieuMapper;
 
     private final PanierOffreService panierOffreService;
 
-    private final EntityManager entityManager;
+    private final AdherentService adherentService;
 
     public PanierDto create(CreatePanierRequest createPanierRequest) {
         PanierDto panierDto = new PanierDto();
@@ -63,7 +62,7 @@ public class PanierService {
     public PanierDto addLieu(String userMail, Long idLieu, int quantite) {
         Panier panier = this.getCurrentPanierEntityByUserMail(userMail)
             .orElse(Panier.builder()
-                .adherent(adherentRepo.findByMail(userMail))
+                .adherent(adherentService.findByMailOrCreate(userMail))
                 .etat(Etat.valueOf("Encours"))
                 .datePanier(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .build());

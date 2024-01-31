@@ -63,4 +63,9 @@ public class CovoiturageLieuService {
             .collect(Collectors.toList());
         return covoiturageLieux;
     }
+
+    public Page<CovoiturageLieuDto> getByIdFestival(Pageable pageable, String nomManifestation){
+        Page<CovoiturageLieu> covoiturageLieux = repo.findByOffreCovoiturageFestivalNomManifestation(pageable, nomManifestation);
+        return covoiturageLieux.map(mapper::toDto);
+    }
 }

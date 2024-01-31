@@ -32,7 +32,7 @@ public class CovoiturageLieuController {
         return covoiturageLieuService.getAll(pageable);
     }
 
-    @GetMapping("covoiturageLieu/{idCovoiturageLieu}")
+    @GetMapping("covoiturageLieu/byid/{idCovoiturageLieu}")
     CovoiturageLieuDto getById(@PathVariable final Long idCovoiturageLieu){
         return covoiturageLieuService.getById(idCovoiturageLieu);
     }

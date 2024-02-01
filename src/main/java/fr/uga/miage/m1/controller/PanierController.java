@@ -44,7 +44,7 @@ public class PanierController {
     }
 
     @PatchMapping("panier/pay/{idPanier}")
-    public PanierDto setEtatToPaye(@PathVariable final Long idPanier){
+    public PanierDto setEtatToPaye(@PathVariable final Long idPanier) throws Exception{
         return panierService.setEtatToPaye(idPanier);
     }
 }

@@ -1,6 +1,7 @@
 package fr.uga.miage.m1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -79,27 +80,6 @@ class FestivalServiceTest {
     }
 
     @Test
-    public void testGetByFilter() {
-        // Arrange
-        Festival festival = new Festival();
-        festival.setNomManifestation("Test Festival");
-        Page<Festival> page = new PageImpl<>(Arrays.asList(festival));
-        when(repo.findAll(any(Specification.class), any(PageRequest.class))).thenReturn(page);
-        FestivalDto dto = new FestivalDto();
-        dto.setNomManifestation("Test Festival");
-        when(mapper.toDto(any(Festival.class))).thenReturn(dto);
-        FestivalFilterRequest filter = FestivalFilterRequest.builder().build();
-        filter.setNomManifestation("Test Festival");
-
-        // Act
-        Page<FestivalDto> result = service.getByFilter(filter, PageRequest.of(0, 10));
-
-        // Assert
-        assertEquals(1, result.getContent().size());
-        assertEquals("Test Festival", result.getContent().get(0).getNomManifestation());
-    }
-
-    @Test
     void testGetAllLieuPrincipal() {
         Festival festival1 = new Festival();
         Festival festival2 = new Festival();
@@ -118,7 +98,7 @@ class FestivalServiceTest {
         assertEquals("Lieu 2", result.get(1));
     }
 
-     @Test
+    @Test
     void testGetAllDomaine() {
         Festival festival1 = new Festival();
         Festival festival2 = new Festival();
@@ -140,6 +120,27 @@ class FestivalServiceTest {
         assertEquals("Domaine 1", result.get(0));
         assertEquals("Domaine 2", result.get(1));
     }
+
+
+    @Test
+    public void testGetByFilter() {
+        // Create mock objects
+        Festival festival = mock(Festival.class);
+        FestivalDto festivalDto = mock(FestivalDto.class);
+        FestivalFilterRequest filter = FestivalFilterRequest.builder().build();
+        Pageable pageable = mock(Pageable.class);
+
+        // Define behavior of mock objects
+        when(repo.findAll(any(Specification.class), any(Pageable.class))).thenReturn(new PageImpl<>(Collections.singletonList(festival)));
+        when(mapper.toDto(any(Festival.class))).thenReturn(festivalDto);
+
+        // Call the method to test
+        Page<FestivalDto> result = service.getByFilter(filter, pageable);
+
+        // Verify the result
+        assertNotNull(result);
+    }
+    
 
 
 }

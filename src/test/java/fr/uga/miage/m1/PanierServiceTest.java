@@ -1,9 +1,14 @@
 package fr.uga.miage.m1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +22,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.uga.miage.m1.dto.PanierDto;
 import fr.uga.miage.m1.entities.Adherent;
+import fr.uga.miage.m1.entities.CovoiturageLieu;
 import fr.uga.miage.m1.entities.Panier;
+import fr.uga.miage.m1.entities.PanierOffre;
 import fr.uga.miage.m1.mapper.PanierMapper;
 import fr.uga.miage.m1.repos.AdherentRepo;
 import fr.uga.miage.m1.repos.PanierRepo;
@@ -131,6 +138,20 @@ class PanierServiceTest {
         assertEquals(Etat.ENCOURS, result.get(0).getEtat());
     }
 
+    @Test
+    public void testSetEtatToPaye() throws Exception {
+        // Create mock object
+        Panier panier = mock(Panier.class);
+
+        // Define behavior of mock objects
+        when(repo.findById(anyLong())).thenReturn(Optional.of(panier));
+
+        // Call the method to test
+        service.setEtatToPaye(1L);
+
+        // Verify that setEtat was called with Etat.PAYE
+        verify(panier, times(1)).setEtat(Etat.PAYE);
+    }
 
     
 }

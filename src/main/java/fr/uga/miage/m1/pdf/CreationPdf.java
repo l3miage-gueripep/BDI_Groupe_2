@@ -12,6 +12,8 @@ import fr.uga.miage.m1.entities.Panier;
 import fr.uga.miage.m1.entities.PanierOffre;
 
 public class CreationPdf {
+    private CreationPdf() {
+    }
 
     public static byte[] createPDF(Panier panier) {
 

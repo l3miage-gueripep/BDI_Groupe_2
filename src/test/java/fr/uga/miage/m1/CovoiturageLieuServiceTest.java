@@ -5,12 +5,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,5 +97,44 @@ class CovoiturageLieuServiceTest {
         assertEquals(dto, result);
         verify(repo).findById(id);
         verify(mapper).toDto(entity);
+    }
+
+
+    @Test
+    public void testGetAllWithPageable() {
+        // Create mock objects
+        CovoiturageLieu covoiturageLieu = mock(CovoiturageLieu.class);
+        CovoiturageLieuDto covoiturageLieuDto = mock(CovoiturageLieuDto.class);
+        Pageable pageable = mock(Pageable.class);
+
+        // Define behavior of mock objects
+        when(repo.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Collections.singletonList(covoiturageLieu)));
+        when(mapper.toDto(any(CovoiturageLieu.class))).thenReturn(covoiturageLieuDto);
+
+        // Call the method to test
+        Page<CovoiturageLieuDto> result = service.getAll(pageable);
+
+        // Verify the result
+        assertEquals(1, result.getContent().size());
+        assertEquals(covoiturageLieuDto, result.getContent().get(0));
+    }
+
+    @Test
+    public void testGetByIdFestival() {
+        // Create mock objects
+        CovoiturageLieu covoiturageLieu = mock(CovoiturageLieu.class);
+        CovoiturageLieuDto covoiturageLieuDto = mock(CovoiturageLieuDto.class);
+        Pageable pageable = mock(Pageable.class);
+
+        // Define behavior of mock objects
+        when(repo.findByOffreCovoiturageFestivalNomManifestation(any(Pageable.class), anyString())).thenReturn(new PageImpl<>(Collections.singletonList(covoiturageLieu)));
+        when(mapper.toDto(any(CovoiturageLieu.class))).thenReturn(covoiturageLieuDto);
+
+        // Call the method to test
+        Page<CovoiturageLieuDto> result = service.getByIdFestival(pageable, "Test Festival");
+
+        // Verify the result
+        assertEquals(1, result.getContent().size());
+        assertEquals(covoiturageLieuDto, result.getContent().get(0));
     }
 }

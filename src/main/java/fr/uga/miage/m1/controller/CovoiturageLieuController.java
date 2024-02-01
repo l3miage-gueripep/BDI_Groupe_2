@@ -41,7 +41,7 @@ public class CovoiturageLieuController {
         return covoiturageLieuService.getByIdFestival(pageable, nomManifestation);
     }
 
-    @GetMapping("festival/{nomManifestation}/covoituragelieu/filter")
+    @PostMapping("festival/{nomManifestation}/covoituragelieu/filter")
     public Page<CovoiturageLieuDto> getByIdFestivalAndFilter(Pageable pageable, @PathVariable final String nomManifestation, @RequestBody final OffreCovoiturageFilterRequest filterRequest){
         return covoiturageLieuService.getByIdFestivalAndFilter(pageable, nomManifestation, filterRequest);
     }

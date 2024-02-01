@@ -105,7 +105,7 @@ public class PanierService {
             panier.setEtat(Etat.valueOf("PAYE"));
             return mapper.toDto(repo.save(panier));
         } else {
-        return null;
+            return null;
         }
     }
 

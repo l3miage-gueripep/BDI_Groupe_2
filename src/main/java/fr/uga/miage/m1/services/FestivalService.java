@@ -1,16 +1,21 @@
 package fr.uga.miage.m1.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+
 import fr.uga.miage.m1.entities.Festival;
 import fr.uga.miage.m1.entities.SousDomaine;
 import fr.uga.miage.m1.mapper.FestivalMapper;
 import fr.uga.miage.m1.repos.FestivalRepo;
 import fr.uga.miage.m1.requests.FestivalFilterRequest;
 import fr.uga.miage.m1.dto.*;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -38,17 +43,31 @@ public class FestivalService {
     }
 
     public Page<FestivalDto> getByFilter(FestivalFilterRequest filtre, Pageable pageable) {
-        Festival festivalExample = new Festival();
-        festivalExample.setLieuPrincipal(filtre.getLieuPrincipal());
-        festivalExample.setTarifPass(null);
-        if (filtre.getSousDomaine() != null) {
-            festivalExample.setSousDomaine(SousDomaine.builder().nomSousDomaine(filtre.getSousDomaine()).build());
-        }
-        festivalExample.setDateDebut(filtre.getDateDebut());
-        festivalExample.setDateFin(filtre.getDateFin());
+        Specification<Festival> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-        Example<Festival> example = Example.of(festivalExample);
-        Page<Festival> festivals = repo.findAll(example, pageable);
+            if (filtre.getNomManifestation() != null) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("nomManifestation")), "%" + filtre.getNomManifestation().toLowerCase() + "%"));
+            }
+            if (filtre.getLieuPrincipal() != null) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("lieuPrincipal")), "%" + filtre.getLieuPrincipal().toLowerCase() + "%"));
+            }
+            if (filtre.getSousDomaine() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("sousDomaine").get("nomSousDomaine"), filtre.getSousDomaine()));
+            }
+            if (filtre.getDateDebut() != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateDebut"), filtre.getDateDebut()));
+            }
+            if (filtre.getDateFin() != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateFin"), filtre.getDateFin()));
+            }
+
+            
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<Festival> festivals = repo.findAll(spec, pageable);
 
         return festivals.map(mapper::toDto);
     }

@@ -1,20 +1,25 @@
 package fr.uga.miage.m1.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import fr.uga.miage.m1.dto.CovoiturageLieuDto;
 import fr.uga.miage.m1.entities.CovoiturageLieu;
+import fr.uga.miage.m1.entities.OffreCovoiturage;
 import fr.uga.miage.m1.mapper.CovoiturageLieuMapper;
 import fr.uga.miage.m1.mapper.LieuCovoiturageMapper;
 import fr.uga.miage.m1.mapper.OffreCovoiturageMapper;
 import fr.uga.miage.m1.repos.CovoiturageLieuRepo;
 import fr.uga.miage.m1.requests.CreateCovoiturageLieuRequest;
+import fr.uga.miage.m1.requests.OffreCovoiturageFilterRequest;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -86,6 +91,32 @@ public class CovoiturageLieuService {
         return covoiturageLieux.map(mapper::toDto);
     }
 
+    public Page<CovoiturageLieuDto> getByIdFestivalAndFilter(Pageable pageable, String nomManifestation, OffreCovoiturageFilterRequest filterRequest) {
+        Specification<CovoiturageLieu> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
+            if (filterRequest.getDateDepart() != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateDepart"), filterRequest.getDateDepart()));
+            }
+            if (filterRequest.getHoraireDepartMin() != null) {
+                predicates.add(
+                        criteriaBuilder.greaterThanOrEqualTo(root.get("horaireDepart"), filterRequest.getHoraireDepartMin()));
+            }
+            if (filterRequest.getHoraireDepartMax() != null) {
+                predicates.add(
+                        criteriaBuilder.lessThanOrEqualTo(root.get("horaireDepart"), filterRequest.getHoraireDepartMax()));
+            }
+            if (filterRequest.getNbPlacesMin() > 0) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("nbPlaces"), filterRequest.getNbPlacesMin()));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<CovoiturageLieu> offres = repo.findAll(spec, pageable);
+
+        return offres.map(mapper::toDto);
+
+    }
 
 }

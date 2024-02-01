@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.uga.miage.m1.dto.CovoiturageLieuDto;
 import fr.uga.miage.m1.requests.CreateCovoiturageLieuRequest;
+import fr.uga.miage.m1.requests.OffreCovoiturageFilterRequest;
 import fr.uga.miage.m1.services.CovoiturageLieuService;
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +39,11 @@ public class CovoiturageLieuController {
     @GetMapping("festival/{nomManifestation}/covoituragelieu")
     public Page<CovoiturageLieuDto> getByIdFestival(Pageable pageable, @PathVariable final String nomManifestation){
         return covoiturageLieuService.getByIdFestival(pageable, nomManifestation);
+    }
+
+    @GetMapping("festival/{nomManifestation}/covoituragelieu/filter")
+    public Page<CovoiturageLieuDto> getByIdFestivalAndFilter(Pageable pageable, @PathVariable final String nomManifestation, @RequestBody final OffreCovoiturageFilterRequest filterRequest){
+        return covoiturageLieuService.getByIdFestivalAndFilter(pageable, nomManifestation, filterRequest);
     }
 
 

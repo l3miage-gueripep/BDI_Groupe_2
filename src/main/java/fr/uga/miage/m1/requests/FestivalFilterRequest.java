@@ -15,5 +15,4 @@ public class FestivalFilterRequest {
     private String sousDomaine;
     private Date dateDebut;
     private Date dateFin;
-    private String cityDeparture;
 }

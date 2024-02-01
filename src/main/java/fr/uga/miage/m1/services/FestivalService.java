@@ -53,13 +53,19 @@ public class FestivalService {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("lieuPrincipal")), "%" + filtre.getLieuPrincipal().toLowerCase() + "%"));
             }
             if (filtre.getSousDomaine() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("sousDomaine").get("nomSousDomaine"), filtre.getSousDomaine()));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("sousDomaine").get("nomSousDomaine")), "%" + filtre.getSousDomaine().toLowerCase() + "%"));
             }
-            if (filtre.getDateDebut() != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateDebut"), filtre.getDateDebut()));
+            if (filtre.getDateDebut() != null && filtre.getDateFin() != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateDebut"), filtre.getDateFin()));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateFin"), filtre.getDateDebut()));
             }
-            if (filtre.getDateFin() != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateFin"), filtre.getDateFin()));
+            else {
+                if (filtre.getDateDebut() != null) {
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateFin"), filtre.getDateDebut()));
+                }
+                if (filtre.getDateFin() != null) {
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateDebut"), filtre.getDateFin()));
+                }
             }
 
             

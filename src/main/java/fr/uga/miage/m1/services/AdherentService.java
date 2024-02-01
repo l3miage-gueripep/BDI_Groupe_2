@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import fr.uga.miage.m1.Role;
 import fr.uga.miage.m1.dto.AdherentDto;
 import fr.uga.miage.m1.entities.Adherent;
 import fr.uga.miage.m1.mapper.AdherentMapper;
@@ -28,5 +29,14 @@ public class AdherentService {
         return repo.findAll().stream()
                 .map(mapper::toDto)
                 .toList();
+    }
+
+    public Adherent findByMailOrCreate(String mail){
+        Adherent adherent = repo.findByMail(mail);
+        if(adherent == null){
+            adherent = Adherent.builder().mail(mail).role(Role.FESTIVALIER).build();
+            adherent = repo.save(adherent);
+        }
+        return adherent;
     }
 }

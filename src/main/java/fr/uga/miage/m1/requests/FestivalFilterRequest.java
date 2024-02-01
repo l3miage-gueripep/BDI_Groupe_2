@@ -11,6 +11,7 @@ import lombok.Getter;
 @Getter
 public class FestivalFilterRequest {
     private String lieuPrincipal;
+    private String nomManifestation;
     private String sousDomaine;
     private Date dateDebut;
     private Date dateFin;

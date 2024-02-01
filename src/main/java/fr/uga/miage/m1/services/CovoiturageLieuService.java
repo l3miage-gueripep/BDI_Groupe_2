@@ -94,6 +94,7 @@ public class CovoiturageLieuService {
     public Page<CovoiturageLieuDto> getByIdFestivalAndFilter(Pageable pageable, String nomManifestation, OffreCovoiturageFilterRequest filterRequest) {
         Specification<CovoiturageLieu> spec = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("offreCovoiturage").get("festival").get("nomManifestation"), nomManifestation));
             if (filterRequest.getHoraireDepartMin() != null) {
                 predicates.add(
                         criteriaBuilder.greaterThanOrEqualTo(root.get("horaire"), filterRequest.getHoraireDepartMin()));
@@ -105,6 +106,7 @@ public class CovoiturageLieuService {
             if (filterRequest.getNbPlacesMin() > 0) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("offreCovoiturage").get("nbPlaces"), filterRequest.getNbPlacesMin()));
             }
+
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

@@ -13,12 +13,10 @@ import fr.uga.miage.m1.dto.PanierDto;
 import fr.uga.miage.m1.entities.CovoiturageLieu;
 import fr.uga.miage.m1.entities.Panier;
 import fr.uga.miage.m1.entities.PanierOffre;
-import fr.uga.miage.m1.mapper.CovoiturageLieuMapper;
 import fr.uga.miage.m1.mapper.PanierMapper;
 import fr.uga.miage.m1.repos.AdherentRepo;
 import fr.uga.miage.m1.repos.PanierRepo;
 import fr.uga.miage.m1.requests.CreatePanierRequest;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -89,14 +87,6 @@ public class PanierService {
     }
 
 
-    //ancien code avant sonar 
-    // public PanierDto setEtatToPaye(Long idPanier) {
-    //     Panier panier = repo.findById(idPanier).get();
-    //     panier.setEtat(Etat.valueOf("PAYE"));
-    //     return mapper.toDto(repo.save(panier)); 
-    // }
-
-    //nouveau code apres sonar ( verifier que tout fonctionne toujours)
     public PanierDto setEtatToPaye(Long idPanier) {
     Optional<Panier> optionalPanier = repo.findById(idPanier);
 

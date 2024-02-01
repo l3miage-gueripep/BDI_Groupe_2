@@ -2,7 +2,6 @@ package fr.uga.miage.m1.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 
 import fr.uga.miage.m1.entities.Festival;
-import fr.uga.miage.m1.entities.SousDomaine;
 import fr.uga.miage.m1.mapper.FestivalMapper;
 import fr.uga.miage.m1.repos.FestivalRepo;
 import fr.uga.miage.m1.requests.FestivalFilterRequest;

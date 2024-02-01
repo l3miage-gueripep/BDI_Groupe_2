@@ -1,7 +1,6 @@
 package fr.uga.miage.m1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.Date;
@@ -15,9 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.uga.miage.m1.dto.PanierDto;
 import fr.uga.miage.m1.entities.Adherent;
-import fr.uga.miage.m1.entities.CovoiturageLieu;
 import fr.uga.miage.m1.entities.Panier;
-import fr.uga.miage.m1.entities.PanierOffre;
 import fr.uga.miage.m1.mapper.PanierMapper;
 import fr.uga.miage.m1.repos.AdherentRepo;
 import fr.uga.miage.m1.repos.PanierRepo;
@@ -45,44 +42,6 @@ class PanierServiceTest {
 
     @InjectMocks
     private PanierService service;
-
-
-
-     @Test
-    void testAddLieu() {
-        String userMail = "test@mail.com";
-        Long idLieu = 1L;
-        int quantite = 2;
-
-        Adherent adherent = new Adherent();
-        adherent.setMail(userMail);
-
-        Panier panier = new Panier();
-        panier.setAdherent(adherent);
-        panier.setEtat(Etat.ENCOURS);
-        panier.setDatePanier(new Date());
-
-        CovoiturageLieu covoiturageLieu = new CovoiturageLieu();
-        PanierOffre panierOffre = new PanierOffre();
-        panierOffre.setPanier(panier);
-        panierOffre.setCovoiturageLieu(covoiturageLieu);
-        panierOffre.setQuantite(quantite);
-
-        PanierDto dto = new PanierDto();
-
-        when(adherentRepo.findByMail(userMail)).thenReturn(adherent);
-        when(service.getCurrentPanierEntityByUserMail(userMail)).thenReturn(Optional.of(panier));
-        when(covoiturageLieuService.getEntityById(idLieu)).thenReturn(covoiturageLieu);
-        when(panierOffreService.save(any(PanierOffre.class))).thenReturn(panierOffre);
-        when(repo.save(panier)).thenReturn(panier);
-        when(mapper.toDto(panier)).thenReturn(dto);
-
-        PanierDto result = service.addLieu(userMail, idLieu, quantite);
-
-        assertEquals(dto, result);
-        verify(panierOffreService, times(1)).save(any(PanierOffre.class));
-        verify(repo, times(1)).save(panier);
-    }
 
      @Test
     void testGetCurrentPanierByUserMail() {

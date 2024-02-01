@@ -12,11 +12,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import fr.uga.miage.m1.entities.Festival;
 import fr.uga.miage.m1.mapper.FestivalMapper;
 import fr.uga.miage.m1.repos.FestivalRepo;
+import fr.uga.miage.m1.requests.FestivalFilterRequest;
 import fr.uga.miage.m1.services.FestivalService;
 import fr.uga.miage.m1.dto.FestivalDto;
 import fr.uga.miage.m1.dto.SousDomaineDto;
@@ -73,6 +76,27 @@ class FestivalServiceTest {
         FestivalDto result = service.getById("test");
 
         assertEquals(festivalDto, result);
+    }
+
+    @Test
+    public void testGetByFilter() {
+        // Arrange
+        Festival festival = new Festival();
+        festival.setNomManifestation("Test Festival");
+        Page<Festival> page = new PageImpl<>(Arrays.asList(festival));
+        when(repo.findAll(any(Specification.class), any(PageRequest.class))).thenReturn(page);
+        FestivalDto dto = new FestivalDto();
+        dto.setNomManifestation("Test Festival");
+        when(mapper.toDto(any(Festival.class))).thenReturn(dto);
+        FestivalFilterRequest filter = FestivalFilterRequest.builder().build();
+        filter.setNomManifestation("Test Festival");
+
+        // Act
+        Page<FestivalDto> result = service.getByFilter(filter, PageRequest.of(0, 10));
+
+        // Assert
+        assertEquals(1, result.getContent().size());
+        assertEquals("Test Festival", result.getContent().get(0).getNomManifestation());
     }
 
     @Test

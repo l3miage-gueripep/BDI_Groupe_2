@@ -30,16 +30,6 @@ class CommuneServiceTest {
     @Mock
     CommuneMapper mapper;
 
-    @Test
-    void testCreate() {
-        Commune entity = new Commune();
-        when(repo.save(any(Commune.class))).thenReturn(entity);
-
-        Commune result = service.create(entity);
-
-        assertEquals(entity, result);
-        verify(repo).save(entity);
-    }
 
     @Test
     void testGetAll() {

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import fr.uga.miage.m1.dto.CovoiturageLieuDto;
 import fr.uga.miage.m1.entities.CovoiturageLieu;
-import fr.uga.miage.m1.entities.OffreCovoiturage;
 import fr.uga.miage.m1.mapper.CovoiturageLieuMapper;
 import fr.uga.miage.m1.mapper.LieuCovoiturageMapper;
 import fr.uga.miage.m1.mapper.OffreCovoiturageMapper;
@@ -110,11 +109,8 @@ public class CovoiturageLieuService {
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
-
         Page<CovoiturageLieu> offres = repo.findAll(spec, pageable);
-
         return offres.map(mapper::toDto);
-
     }
 
 }

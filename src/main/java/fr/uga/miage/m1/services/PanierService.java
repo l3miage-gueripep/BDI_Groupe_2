@@ -100,7 +100,7 @@ public class PanierService {
                 panier.setEtat(Etat.valueOf("PAYE"));
             } catch (RuntimeException e) {
                 panier.setEtat(Etat.valueOf("ECHEC"));
-                System.err.println(e.getMessage());
+                e.printStackTrace();
                 return null;
             }
             return mapper.toDto(repo.save(panier));

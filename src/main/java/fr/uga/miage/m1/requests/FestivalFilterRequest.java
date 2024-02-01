@@ -5,10 +5,11 @@ import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @Getter
+@Builder
 public class FestivalFilterRequest {
     private String lieuPrincipal;
     private String nomManifestation;

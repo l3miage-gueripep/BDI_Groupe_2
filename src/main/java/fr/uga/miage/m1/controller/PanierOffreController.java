@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.uga.miage.m1.dto.FestivalDto;
 import fr.uga.miage.m1.dto.PanierOffreDto;
 import fr.uga.miage.m1.entities.PanierOffre;
 import fr.uga.miage.m1.services.PanierOffreService;

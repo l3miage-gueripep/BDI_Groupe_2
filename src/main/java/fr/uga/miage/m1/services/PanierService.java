@@ -90,14 +90,6 @@ public class PanierService {
     }
 
 
-    //ancien code avant sonar 
-    // public PanierDto setEtatToPaye(Long idPanier) {
-    //     Panier panier = repo.findById(idPanier).get();
-    //     panier.setEtat(Etat.valueOf("PAYE"));
-    //     return mapper.toDto(repo.save(panier)); 
-    // }
-
-    //nouveau code apres sonar ( verifier que tout fonctionne toujours)
     public PanierDto setEtatToPaye(Long idPanier) {
     Optional<Panier> optionalPanier = repo.findById(idPanier);
 

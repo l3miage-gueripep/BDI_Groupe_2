@@ -31,11 +31,7 @@ public class LieuCovoiturageService {
     }
 
     public LieuCovoiturageDto getById(String idLieuCovoiturage) {
-        //code original avant sonar
-        //LieuCovoiturage lieuCovoiturage = lieuCovoiturageRepo.findById(idLieuCovoiturage).get();
-        //return lieuCovoiturageMapper.toDto(lieuCovoiturage);
 
-        //code apres sonar ( vérifier que ça fonctionne)
         Optional<LieuCovoiturage> optionalLieuCovoiturage = lieuCovoiturageRepo.findById(idLieuCovoiturage);
         if (optionalLieuCovoiturage.isPresent()) {
             LieuCovoiturage lieuCovoiturage = optionalLieuCovoiturage.get();

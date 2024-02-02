@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,5 +60,24 @@ class AdherentServiceTest {
         assertEquals(dto, result.get(0));
         verify(repo).findAll();
         verify(mapper).toDto(entity);
+    }
+
+    @Test
+    public void testFindByMailOrCreate() {
+        // Arrange
+        String mail = "test@mail.com";
+        Adherent adherent = new Adherent();
+        adherent.setMail(mail);
+        when(repo.findByMail(any(String.class))).thenReturn(null).thenReturn(adherent);
+        
+        // Act
+        Adherent result = service.findByMailOrCreate(mail);
+
+        // Act
+        result = service.findByMailOrCreate(mail);
+
+        // Assert
+        assertNotNull(result, "Result should not be null");
+        assertEquals(mail, result.getMail());
     }
 }
